@@ -1,5 +1,5 @@
 import React from 'react'
-import {Image, StyleSheet, Text, View, Dimensions} from 'react-native'
+import {Image, StyleSheet, Text, View, Dimensions, TouchableOpacity} from 'react-native'
 import { exampleContent, IkaftiBlack } from '../../../assets'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { colors } from '../../../utils'
@@ -8,41 +8,43 @@ import Gap from '../Gap'
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const CardCareer = ({title, description, typeJob, salary}) => {
+const CardCareer = ({title, description, typeJob, salary, onPress}) => {
     return(
-        <View style={styles.card}>
-            <View style={styles.imageCard}>
-                <Image source={exampleContent} style={styles.image}/>
-            </View>
-            <View style={styles.contentCard}>
-                <Text style={styles.title} numberOfLines={1}>{title}</Text>
-                <Gap height={5}/>
-                <Text style={styles.description} numberOfLines={1}>{description}</Text>
-                <Gap height={7}/>
-                <View style={styles.category}>
+        <TouchableOpacity onPress={onPress}>
+            <View style={styles.card}>
+                <View style={styles.imageCard}>
+                    <Image source={exampleContent} style={styles.image}/>
+                </View>
+                <View style={styles.contentCard}>
+                    <Text style={styles.title} numberOfLines={1}>{title}</Text>
+                    <Gap height={5}/>
+                    <Text style={styles.description} numberOfLines={1}>{description}</Text>
+                    <Gap height={7}/>
                     <View style={styles.category}>
-                        <View style={styles.categorys}>
-                            <MaterialCommunityIcons name="clock-time-three" color={colors.Red} size={15} style={{marginBottom: 1.5}} />
-                            <Gap width={5}/>
-                            <Text style={styles.textCategory}>{typeJob ? '' : '-'}</Text>
-                        </View>
-                        <Gap width={20}/>
-                        <View style={styles.categorys}>
-                            <Text style={styles.iconRP}>Rp</Text>
-                            <Gap width={5}/>
-                            <Text style={styles.textCategory}>{salary ? '' : '-'}</Text>
+                        <View style={styles.category}>
+                            <View style={styles.categorys}>
+                                <MaterialCommunityIcons name="clock-time-three" color={colors.Red} size={15} style={{marginBottom: 1.5}} />
+                                <Gap width={5}/>
+                                <Text style={styles.textCategory}>{typeJob ? '' : '-'}</Text>
+                            </View>
+                            <Gap width={20}/>
+                            <View style={styles.categorys}>
+                                <Text style={styles.iconRP}>Rp</Text>
+                                <Gap width={5}/>
+                                <Text style={styles.textCategory}>{salary ? '' : '-'}</Text>
+                            </View>
                         </View>
                     </View>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 };
 
 const styles = StyleSheet.create({
     card: {
         backgroundColor: colors.White,
-        width: windowWidth/2.5,
+        width: windowWidth/2.27,
         height: 200,
         borderWidth: 1,
         borderColor: colors.Gray,

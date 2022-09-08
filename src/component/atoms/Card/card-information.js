@@ -1,5 +1,5 @@
 import React from 'react'
-import {Image, StyleSheet, Text, View, Dimensions} from 'react-native'
+import {Image, StyleSheet, Text, View, Dimensions, TouchableOpacity} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { exampleContent, IkaftiBlack } from '../../../assets'
 import { colors } from '../../../utils'
@@ -8,37 +8,39 @@ import Gap from '../Gap'
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const CardInformation = ({title, author, date}) => {
+const CardInformation = ({title, author, date, onPress}) => {
     return(
-        <View style={styles.card}>
-            <View style={styles.imageCard}>
-                <Image source={exampleContent} style={styles.image}/>
-            </View>
-            <View style={styles.contentCard}>
-                <Text style={styles.title} numberOfLines={2}>{title}</Text>
-                <Gap height={5}/>
-                <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                    <Text style={styles.author} numberOfLines={1}>
-                        <Icon name="user" size={14} color={colors.Red}/>
+        <TouchableOpacity onPress={onPress}>
+            <View style={styles.card}>
+                <View style={styles.imageCard}>
+                    <Image source={exampleContent} style={styles.image}/>
+                </View>
+                <View style={styles.contentCard}>
+                    <Text style={styles.title} numberOfLines={2}>{title}</Text>
+                    <Gap height={5}/>
+                    <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                        <Text style={styles.author} numberOfLines={1}>
+                            <Icon name="user" size={14} color={colors.Red}/>
+                            <Gap width={10}/>
+                            {author ? '' : '-'}
+                        </Text>
                         <Gap width={10}/>
-                        {author ? '' : '-'}
-                    </Text>
-                    <Gap width={10}/>
-                    <Text style={styles.date} numberOfLines={1}>
-                        <Icon name="calendar" size={14} color={colors.Red}/>
-                        <Gap width={9}/>
-                        {date ? '' : '-'}
-                    </Text>
+                        <Text style={styles.date} numberOfLines={1}>
+                            <Icon name="calendar" size={14} color={colors.Red}/>
+                            <Gap width={9}/>
+                            {date ? '' : '-'}
+                        </Text>
+                    </View>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 };
 
 const styles = StyleSheet.create({
     card: {
         backgroundColor: colors.White,
-        width: windowWidth/1.2,
+        width: windowWidth/1.1,
         height: 180,
         borderWidth: 1,
         borderColor: colors.Gray,
