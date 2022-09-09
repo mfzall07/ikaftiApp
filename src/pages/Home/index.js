@@ -1,10 +1,31 @@
-import React, {useEffect} from "react"
+import React, {useEffect, useState} from "react"
 import {View, Text, StyleSheet, StatusBar, ScrollView, TouchableOpacity} from "react-native"
+import Api from "../../Api";
 import { CardAgenda, CardAnnouncement, CardCareer, CardInformation, Gap } from "../../component/atoms";
 import { colors } from "../../utils"
 
 const Home = ({navigation}) => {
-
+    const [career, setCareer] = useState([
+        {
+            id: 35327,
+            company_name: "",
+            description: "",
+            image: "",
+            job_type: "",
+            phone: "",
+            placement: "",
+            salary: "",
+            title: ""
+        },
+    ])
+    const getCareer = async () => {
+        const response = await Api.indexCareer('1|xPKxitvHikadneoHJ85gamqNIgt5fCGeW9XiUTsl');
+        setCareer(response.data.data)
+        // console.log(career[0]['title'])
+    }
+    useEffect(() => {
+        getCareer()
+    }, [])
 
     return (
         <View style={styles.container}>
@@ -106,7 +127,31 @@ const Home = ({navigation}) => {
                         </View>
                         <Gap height={10} />
                         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
-                            <CardCareer
+                            {career.map(data => {
+                                const params = {
+                                    id: data.id,
+                                    company_name: data.company_name,
+                                    description: data.description,
+                                    image: data.image,
+                                    job_type: data.job_type,
+                                    phone: data.phone,
+                                    placement: data.placement,
+                                    salary: data.salary,
+                                    title: data.title
+                                }
+                                return (
+                                    // <ListLead key={data.id} advertiser={data.advertiser} operator={data.operator} customer_name={data.customer_name} customer_whatsapp={data.customer_whatsapp} product={data.product} status={data.status} created_at={data.created_at} onPress={() => gotoModalDetailLead(params)} />
+                                    <CardCareer
+                                        key={data.id}
+                                        title={data.title}
+                                        description={data.description}
+                                        typeJob={data.job_type}
+                                        salary={data.salary}
+                                    />
+                                    // <Gap width={10}/>
+                                )
+                            })}
+                            {/* <CardCareer
                                 title={'Lorem Ipsum is simply dummy text'}
                                 description={'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'}
                             />
@@ -119,12 +164,7 @@ const Home = ({navigation}) => {
                             <CardCareer
                                 title={'Lorem Ipsum is simply dummy text'}
                                 description={'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'}
-                            />
-                            <Gap width={10}/>
-                            <CardCareer
-                                title={'Lorem Ipsum is simply dummy text'}
-                                description={'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'}
-                            />
+                            /> */}
                         </ScrollView>
                     </View>
                     <Gap height={10}/>
