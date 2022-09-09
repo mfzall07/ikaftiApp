@@ -1,7 +1,7 @@
 import request from './utils/request';
 class Api{
   static urlAPI() {
-    return 'http://e27f-114-142-168-15.ngrok.io/api/v1/';
+    return 'https://ikafti-umi.com/api/v1/';
     }
     static indexCareer(token) {
         let path = 'job';

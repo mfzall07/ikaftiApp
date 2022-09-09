@@ -1,5 +1,5 @@
 import React from 'react'
-import {Image, StyleSheet, Text, View, Dimensions} from 'react-native'
+import {Image, StyleSheet, Text, View, Dimensions, TouchableOpacity} from 'react-native'
 import { exampleContent, IkaftiBlack } from '../../../assets'
 import { colors } from '../../../utils'
 import Gap from '../Gap'
@@ -7,18 +7,20 @@ import Gap from '../Gap'
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const CardAnnouncement = ({title, description}) => {
+const CardAnnouncement = ({title, description, onPress}) => {
     return(
-        <View style={styles.card}>
-            <View style={styles.imageCard}>
-                <Image source={exampleContent} style={styles.image}/>
+        <TouchableOpacity onPress={onPress}>
+            <View style={styles.card}>
+                <View style={styles.imageCard}>
+                    <Image source={exampleContent} style={styles.image}/>
+                </View>
+                <View style={styles.contentCard}>
+                    <Text style={styles.title} numberOfLines={1}>{title}</Text>
+                    <Gap height={5}/>
+                    <Text style={styles.description} numberOfLines={2}>{description}</Text>
+                </View>
             </View>
-            <View style={styles.contentCard}>
-                <Text style={styles.title} numberOfLines={1}>{title}</Text>
-                <Gap height={5}/>
-                <Text style={styles.description} numberOfLines={2}>{description}</Text>
-            </View>
-        </View>
+        </TouchableOpacity>
     )
 };
 
