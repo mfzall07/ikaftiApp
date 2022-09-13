@@ -25,13 +25,13 @@ const CardCareer = ({title, description, typeJob, salary, onPress}) => {
                             <View style={styles.categorys}>
                                 <MaterialCommunityIcons name="clock-time-three" color={colors.Red} size={15} style={{marginBottom: 1.5}} />
                                 <Gap width={5}/>
-                                <Text style={styles.textCategory}>{typeJob ? '' : '-'}</Text>
+                                <Text style={styles.textCategory}>{typeJob ?? '-'}</Text>
                             </View>
                             <Gap width={20}/>
                             <View style={styles.categorys}>
                                 <Text style={styles.iconRP}>Rp</Text>
                                 <Gap width={5}/>
-                                <Text style={styles.textCategory}>{salary ? '' : '-'}</Text>
+                                <Text style={styles.textCategory}>{salary ?? '-'}</Text>
                             </View>
                         </View>
                     </View>
@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
+        marginRight: 10
     },
     imageCard: {
         height: '50%',
