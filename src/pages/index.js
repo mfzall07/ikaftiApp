@@ -11,6 +11,15 @@ import AgendaDetail from "./AgendaDetail"
 import AgendaList from "./AgendaList"
 import CareerDetail from "./CareerDetail"
 import CareerList from "./CareerList"
+import NavigationAdmin from "./NavigationAdmin"
+
+import AddAdmin from "./AddAdmin"
+import AddAnnouncement from "./AddAnnouncement"
+import WaitingList from "./WaitingList"
+import WaitingListDetail from "./WaitingListDetail"
+import ViewAlumniList from "./ViewListAlumni"
+import ViewListAlumniDetail from "./ViewListAlumniDetail"
+import ViewListAlumniEdit from "./ViewListAlumniEdit"
 
 export {
     Splash,
@@ -26,4 +35,12 @@ export {
     AgendaList,
     CareerDetail,
     CareerList,
+    NavigationAdmin,
+    AddAdmin,
+    AddAnnouncement,
+    WaitingList,
+    WaitingListDetail,
+    ViewAlumniList,
+    ViewListAlumniDetail,
+    ViewListAlumniEdit,
 }

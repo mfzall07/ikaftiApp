@@ -37,7 +37,7 @@ const Login = ({navigation}) => {
                 </View>
             </View>
             <Gap height={20}/>
-            <TouchableOpacity style={styles.buttonLogin}>
+            <TouchableOpacity style={styles.buttonLogin} onPress={ () => navigation.navigate('NavigationAdmin') }>
                 <Text style={styles.titleButtonLogin}>Login</Text>
             </TouchableOpacity>
         </View>
