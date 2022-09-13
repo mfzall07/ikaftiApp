@@ -82,7 +82,7 @@ const RegistrationAlumni = ({navigation}) => {
                     </View>
                     <Gap height={20} />
                     <View>
-                        <Text style={styles.title}>City</Text>
+                        <Text style={styles.title}>Program Studi</Text>
                         <SelectDropdown
                             defaultButtonText={'Choose Program Study'}
                             data={studyProgram}

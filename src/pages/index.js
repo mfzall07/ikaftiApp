@@ -20,6 +20,7 @@ import WaitingListDetail from "./WaitingListDetail"
 import ViewAlumniList from "./ViewListAlumni"
 import ViewListAlumniDetail from "./ViewListAlumniDetail"
 import ViewListAlumniEdit from "./ViewListAlumniEdit"
+import AddJob from "./AddJob"
 
 export {
     Splash,
@@ -43,4 +44,5 @@ export {
     ViewAlumniList,
     ViewListAlumniDetail,
     ViewListAlumniEdit,
+    AddJob,
 }

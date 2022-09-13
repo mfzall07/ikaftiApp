@@ -2,6 +2,7 @@ import React from 'react'
 import {
     AddAdmin,
     AddAnnouncement,
+    AddJob,
     AgendaDetail,
     AgendaList,
     CareerDetail,
@@ -49,6 +50,7 @@ const Router = () => {
             <Stack.Screen name="ViewAlumniList" component={ViewAlumniList} />
             <Stack.Screen name="ViewListAlumniDetail" component={ViewListAlumniDetail} />
             <Stack.Screen name="ViewListAlumniEdit" component={ViewListAlumniEdit} />
+            <Stack.Screen name="AddJob" component={AddJob} />
         </Stack.Navigator>
     );
 }

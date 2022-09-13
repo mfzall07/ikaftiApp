@@ -4,15 +4,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import { colors } from "../../utils"
-import Home from '../Home'
-import RegistrationAlumni from "../RegistrationAlumni"
-import AlumniList from "../AlumniList";
-import Login from "../Login";
-import About from "../About";
 import AddAdmin from "../AddAdmin";
 import AddAnnouncement from "../AddAnnouncement";
 import WaitingList from "../WaitingList";
 import ViewAlumniList from "../ViewListAlumni";
+import AddJob from "../AddJob";
 
 const Tab = createBottomTabNavigator();
 const NavigationAdmin = () => {
@@ -23,7 +19,7 @@ const NavigationAdmin = () => {
                 screenOptions={{
                     headerShown: false,
                     tabBarActiveTintColor: colors.White,
-                    tabBarStyle:{paddingBottom: 5, paddingTop: 5, backgroundColor: colors.Red}
+                    tabBarStyle:{paddingBottom: 5, paddingTop: 5, backgroundColor: colors.Red},
                 }}
 
             >
@@ -69,7 +65,7 @@ const NavigationAdmin = () => {
                 />
                 <Tab.Screen
                     name="Job"
-                    component={About}
+                    component={AddJob}
                     options={{
                         tabBarLabel: 'Job',
                         tabBarIcon: ({ color, size }) => (
