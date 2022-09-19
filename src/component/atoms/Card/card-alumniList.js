@@ -10,7 +10,7 @@ import Gap from '../Gap'
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const CardAlumniList = ({fullname, address, domicile, email, phone, generation, company}) => {
+const CardAlumniList = ({fullname, domicile, email, generation}) => {
     return(
         <View style={styles.card}>
             <View style={styles.imageCard}>
@@ -22,12 +22,6 @@ const CardAlumniList = ({fullname, address, domicile, email, phone, generation, 
                         <Icon name="user" size={15} />
                         <Gap width={10}/>
                         {fullname ? fullname : '-'}
-                    </Text>
-                    <Gap height={5}/>
-                    <Text style={styles.text} numberOfLines={1}>
-                        <Icons name="map-marked-alt" size={10} />
-                        <Gap width={10}/>
-                        {address ? address : '-'}
                     </Text>
                     <Gap height={5}/>
                     <Text style={styles.text} numberOfLines={1}>
@@ -43,21 +37,9 @@ const CardAlumniList = ({fullname, address, domicile, email, phone, generation, 
                     </Text>
                     <Gap height={5}/>
                     <Text style={styles.text} numberOfLines={1}>
-                        <Icon name="phone-square" size={12} />
-                        <Gap width={10}/>
-                        {phone ? phone : '-'}
-                    </Text>
-                    <Gap height={5}/>
-                    <Text style={styles.text} numberOfLines={1}>
                         <Icon name="users" size={10} />
                         <Gap width={10}/>
                         {generation ? generation : '-'}
-                    </Text>
-                    <Gap height={5}/>
-                    <Text style={styles.text} numberOfLines={1}>
-                        <Icons name="building" size={12} />
-                        <Gap width={10}/>
-                        {company ? company : '-'}
                     </Text>
                     <Gap height={5}/>
                 </View>
@@ -83,11 +65,11 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
     },
     imageCard: {
-        height: '100%',
-        width: '40%',
+        width: '100%',
+        height: '40%',
         alignItems: 'center',
         justifyContent: 'center',
         
@@ -101,7 +83,7 @@ const styles = StyleSheet.create({
     },
     contentCard: {
         padding: 10,
-        width: '50%',
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between'

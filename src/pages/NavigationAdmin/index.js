@@ -21,7 +21,7 @@ const NavigationAdmin = () => {
                     tabBarActiveTintColor: colors.White,
                     tabBarStyle:{paddingBottom: 5, paddingTop: 5, backgroundColor: colors.Red},
                 }}
-
+                initialRouteName="WaitingList"
             >
                 <Tab.Screen
                     name="Admin"
@@ -44,17 +44,17 @@ const NavigationAdmin = () => {
                     }}
                 />
                 <Tab.Screen
-                    name="Waiting List"
+                    name="WaitingList"
                     component={WaitingList}
                     options={{
-                        tabBarLabel: 'Waiting List',
+                        tabBarLabel: 'Home',
                         tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="file-document-edit" color={colors.Red} size={23} style={styles.iconLogin}/>
+                            <MaterialCommunityIcons name="home" color={colors.Red} size={23} style={styles.iconLogin}/>
                         ),
                     }}
                 />
                 <Tab.Screen
-                    name="Alumni List"
+                    name="AlumniList"
                     component={ViewAlumniList}
                     options={{
                         tabBarLabel: 'Alumni List',

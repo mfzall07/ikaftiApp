@@ -17,9 +17,8 @@ const CardCareer = ({title, description, typeJob, salary, onPress}) => {
                 </View>
                 <View style={styles.contentCard}>
                     <Text style={styles.title} numberOfLines={1}>{title}</Text>
-                    <Gap height={5}/>
                     <Text style={styles.description} numberOfLines={1}>{description}</Text>
-                    <Gap height={7}/>
+                    <Gap height={3}/>
                     <View style={styles.category}>
                         <View style={styles.category}>
                             <View style={styles.categorys}>
@@ -44,7 +43,7 @@ const CardCareer = ({title, description, typeJob, salary, onPress}) => {
 const styles = StyleSheet.create({
     card: {
         backgroundColor: colors.White,
-        width: windowWidth/2.27,
+        width: windowWidth/2.34,
         height: 200,
         borderWidth: 1,
         borderColor: colors.Gray,

@@ -1,12 +1,19 @@
 import React, {useEffect, useState} from "react"
 import {View, Text, StyleSheet, StatusBar, Image, TextInput, TouchableOpacity} from "react-native"
+import Api from "../../Api";
 import { IkaftiBlack } from "../../assets";
 import { Gap } from "../../component/atoms";
-import { colors } from "../../utils"
+import { colors, storeData } from "../../utils"
+import axios from "axios"
 
 const Login = ({navigation}) => {
 
     const [borderColor, setBorderColor] = useState('#A1AEB7') ;
+    const [notMatch, setNotMatch] = useState(false)
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+
+
     const onBlur = () => {
         setBorderColor('#A1AEB7')
     }
@@ -15,9 +22,36 @@ const Login = ({navigation}) => {
         setBorderColor(colors.Red)
     }
 
+    const login = async() => {
+        try {
+            const resopnseLogin = await Api.login(username, password)
+            if (resopnseLogin.data.success === true) {
+                console.log('ini apa',resopnseLogin.data)
+                const data = {
+                    token : resopnseLogin.data.access_token
+                }
+                storeData('user', data)
+                
+                navigation.navigate('NavigationAdmin')
+            } else {
+                setNotMatch(true)
+                setInterval(() => {
+                    setNotMatch(false)
+                }, 3000);
+            }
+        } catch (error) {
+            
+        }
+    }
+
     return (
         <View style={styles.container}>
             <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+            { notMatch == true && 
+                <View style={{ backgroundColor: '#FF1900', paddingVertical: 10, paddingHorizontal: 20, borderWidth: 1, borderRadius: 50, top: 15, position: 'absolute' }}>
+                    <Text style={{ color: colors.White, textAlign: 'center', fontFamily: 'ProximaNova', fontWeight: '400' }}>Invalid username and password</Text>
+                </View>
+            }
             <Image source={IkaftiBlack} style={{ width:'55%', height:'15%', resizeMode: 'stretch' }}/>
             <Gap height={50}/>
             <View style={{ alignSelf: 'flex-start' }}>
@@ -28,16 +62,16 @@ const Login = ({navigation}) => {
             <View style={{width: '100%'}}>
                 <View>
                     <Text style={styles.title}>Username</Text>
-                    <TextInput style={styles.input(borderColor)} placeholder='Username' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                    <TextInput style={styles.input(borderColor)} placeholder='Username' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={username} onChangeText={(value) => setUsername(value)}/>
                 </View>
                 <Gap height={20} />
                 <View>
                     <Text style={styles.title}>Password</Text>
-                    <TextInput secureTextEntry={true} style={styles.input(borderColor)} placeholder='Password' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                    <TextInput secureTextEntry={true} style={styles.input(borderColor)} placeholder='Password' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={password} onChangeText={(value) => setPassword(value)}/>
                 </View>
             </View>
             <Gap height={20}/>
-            <TouchableOpacity style={styles.buttonLogin} onPress={ () => navigation.navigate('NavigationAdmin') }>
+            <TouchableOpacity style={styles.buttonLogin} onPress={ login }>
                 <Text style={styles.titleButtonLogin}>Login</Text>
             </TouchableOpacity>
         </View>

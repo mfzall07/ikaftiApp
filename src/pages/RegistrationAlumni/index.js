@@ -3,32 +3,33 @@ import { View, Text, StyleSheet, StatusBar, ScrollView, TouchableOpacity, Image,
 import { launchImageLibrary } from 'react-native-image-picker';
 import SelectDropdown from "react-native-select-dropdown";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import DocumentPicker from 'react-native-document-picker';
 import { profile } from "../../assets";
 import { Gap } from "../../component/atoms";
 import { colors } from "../../utils"
 import moment from 'moment';
+import axios from "axios";
+import Api from "../../Api";
+import { err } from "react-native-svg/lib/typescript/xml";
 
 const RegistrationAlumni = ({navigation}) => {
 
     const studyProgram = ["Teknik Industri", "Teknik Kimia", "Teknik Pertambangan", "Pll"];
     const [borderColor, setBorderColor] = useState('#A1AEB7') ;
     const [photo, setPhoto] = useState('');
-    const [photoDB, setPhotoDB] = useState("");
+    const [photoDB, setPhotoDB] = useState('');
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [dateOfBirth, setDateOfBirth] = useState('');
-    const [fileResponse, setFileResponse] = useState([]);
-
-    const handleDocumentSelection = useCallback(async () => {
-        try {
-        const response = await DocumentPicker.pick({
-            presentationStyle: 'fullScreen',
-        });
-        setFileResponse(response);
-        } catch (err) {
-        console.warn(err);
-        }
-    }, []);
+    const [fullname, setFullName] = useState('')
+    const [address, setAddress] = useState('')
+    const [programStudi, setProgramStudi] = useState('')
+    const [birthPlace, setBirthPlace] = useState('')
+    const [dateBirth, setDateBirth] = useState('')
+    const [generation, setGeneration] = useState('')
+    const [domicile, setDomicile] = useState('')
+    const [email, setEmail] = useState('')
+    const [phoneNumber, setPhoneNumber] = useState('')
+    const [company, setCompany] = useState('')
+    const [success, setSuccess] = useState(false)
+    const [notMatch, setNotMatch] = useState(false)
 
     const showDatePicker = () => {
         setDatePickerVisibility(true);
@@ -39,8 +40,8 @@ const RegistrationAlumni = ({navigation}) => {
     };
 
     const handleConfirm = (date) => {
-        moment.locale('en');
-        setDateOfBirth(date);
+        const dateFilter = moment(date).format('YYYY-MM-DD')
+        setDateBirth(dateFilter)
         hideDatePicker();
     };
 
@@ -59,10 +60,40 @@ const RegistrationAlumni = ({navigation}) => {
         setBorderColor(colors.Red)
     }
 
+    const sendData = async() => {
+        const dataRegister = {
+            name : fullname,
+            company : company,
+            address : address,
+            domicile : domicile,
+            email : email,
+            phone : phoneNumber,
+            birth_place : birthPlace,
+            birth_date : dateBirth,
+            generation: generation,
+            program_studi : programStudi,
+        }
+        try {
+            const postDataRegister = await Api.registerAlumni(dataRegister)
+            setSuccess(true)
+            setInterval(() => {
+                setSuccess(false)
+            }, 5000);
+            console.log('success')
+        } catch (error) {
+            setNotMatch(true)
+            setInterval(() => {
+                setNotMatch(false)
+            }, 5000);
+            console.log(error)
+        }
+    }
+    
+
     return (
         <View style={styles.container}>
             <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView showsVerticalScrollIndicator={false} ref={(c) => {scroll = c}}>
                 <View>
                     <View style={styles.imageMain}>
                         <TouchableOpacity onPress={getImageFromGalery}>
@@ -73,12 +104,12 @@ const RegistrationAlumni = ({navigation}) => {
                     <Gap height={20}/>
                     <View>
                         <Text style={styles.title}>Full Name</Text>
-                        <TextInput style={styles.input(borderColor)} placeholder='Full Name' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                        <TextInput style={styles.input(borderColor)} placeholder='Full Name' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={fullname} onChangeText={(value) => setFullName(value)}/>
                     </View>
                     <Gap height={20} />
                     <View>
                         <Text style={styles.title}>Address</Text>
-                        <TextInput style={styles.input(borderColor)} placeholder='Address' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                        <TextInput style={styles.input(borderColor)} placeholder='Address' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={address} onChangeText={(value) => setAddress(value)}/>
                     </View>
                     <Gap height={20} />
                     <View>
@@ -86,9 +117,7 @@ const RegistrationAlumni = ({navigation}) => {
                         <SelectDropdown
                             defaultButtonText={'Choose Program Study'}
                             data={studyProgram}
-                            onSelect={(selectedItem, index) => {
-                                console.log(selectedItem, index)
-                            }}
+                            onSelect={(selectedItem) => setProgramStudi(selectedItem)}
                             buttonTextAfterSelection={(selectedItem) => {
                                 return selectedItem
                             }}
@@ -105,14 +134,14 @@ const RegistrationAlumni = ({navigation}) => {
                     <Gap height={20} />
                     <View>
                         <Text style={styles.title}>Birth Place</Text>
-                        <TextInput style={styles.input(borderColor)} placeholder='Birth Place' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                        <TextInput style={styles.input(borderColor)} placeholder='Birth Place' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={birthPlace} onChangeText={(value) => setBirthPlace(value)}/>
                     </View>
                     <Gap height={20} />
                     <View>
                         <Text style={styles.title}>Date of Birth</Text>
                         <View>
                             <TouchableOpacity style={styles.dateButton} onPress={showDatePicker}>
-                                <Text style={{ color: colors.TextGray, paddingLeft: 9 }}>{dateOfBirth === '' ? 'DD MM YYYY' : moment(dateOfBirth).format('DD MMM YYYY')}</Text>
+                                <Text style={{ color: colors.TextGray, paddingLeft: 9 }}>{dateBirth === '' ? 'DD MM YYYY' : dateBirth}</Text>
                             </TouchableOpacity>
                             <DateTimePickerModal
                                 isVisible={isDatePickerVisible}
@@ -125,46 +154,46 @@ const RegistrationAlumni = ({navigation}) => {
                     <Gap height={20} />
                     <View>
                         <Text style={styles.title}>Generation</Text>
-                        <TextInput style={styles.input(borderColor)} placeholder='Generation' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                        <TextInput style={styles.input(borderColor)} placeholder='Generation' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={generation} onChangeText={(value) => setGeneration(value)}/>
                     </View>
                     <Gap height={20} />
                     <View>
                         <Text style={styles.title}>Domicile</Text>
-                        <TextInput style={styles.input(borderColor)} placeholder='Domicile' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                        <TextInput style={styles.input(borderColor)} placeholder='Domicile' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={domicile} onChangeText={(value) => setDomicile(value)}/>
+                    </View>
+                    <Gap height={20} />
+                    <View>
+                        <Text style={styles.title}>Email</Text>
+                        <TextInput style={styles.input(borderColor)} placeholder='Email' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={email} onChangeText={(value) => setEmail(value)}/>
                     </View>
                     <Gap height={20} />
                     <View>
                         <Text style={styles.title}>Phone Number</Text>
-                        <TextInput style={styles.input(borderColor)} placeholder='Phone Number' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                        <TextInput style={styles.input(borderColor)} placeholder='Phone Number' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={phoneNumber} onChangeText={(value) => setPhoneNumber(value)}/>
                     </View>
                     <Gap height={20} />
                     <View>
                         <Text style={styles.title}>Company</Text>
-                        <TextInput style={styles.input(borderColor)} placeholder='Company' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                        <TextInput style={styles.input(borderColor)} placeholder='Company' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={company} onChangeText={(value) => setCompany(value)}/>
                     </View>
-                    <Gap height={20} />
-                    <View style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
-                        <TouchableOpacity style={styles.buttonUploadDoc}  onPress={handleDocumentSelection}>
-                            <Text style={styles.titleButtonUploadDoc}>Upload File</Text>
-                        </TouchableOpacity>
-                        <Gap width={10}/>
-                        {fileResponse.map((file, index) => (
-                            <Text
-                                key={index.toString()}
-                                style={styles.uri}
-                                numberOfLines={1}
-                                ellipsizeMode={'middle'}>
-                                {file?.uri}
-                            </Text>
-                        ))}
+                    <Gap height={25} />
+                    { notMatch == true && 
+                    <View style={{ backgroundColor: '#FF1900', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 50 }}>
+                        <Text style={{ color: colors.White, textAlign: 'center', fontFamily: 'Poppins' }}>Alumni has been ready in list</Text>
                     </View>
-                    <Gap height={50} />
+                    }
+                    { success == true && 
+                        <View style={{ backgroundColor: '#22c55e', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 20 }}>
+                            <Text style={{ color: colors.White, textAlign: 'center', fontFamily: 'Poppins' }}>Success Registration</Text>
+                        </View>
+                    }
+                    <Gap height={25} />
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         <TouchableOpacity style={styles.Button} >
                             <Text style={styles.titleButton}>Back To Home</Text>
                         </TouchableOpacity>
                         <Gap width={10}/>
-                        <TouchableOpacity style={styles.Button} >
+                        <TouchableOpacity style={styles.Button}onPress={sendData}>
                             <Text style={styles.titleButton}>Submit</Text>
                         </TouchableOpacity>
                     </View> 

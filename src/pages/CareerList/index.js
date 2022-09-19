@@ -1,14 +1,33 @@
-import React from 'react'
+import React,{useState, useEffect} from 'react'
 import { Dimensions, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { CardAgenda, CardCareer, Gap } from '../../component'
 import { colors } from '../../utils'
 import moment from 'moment'
 import Icons from 'react-native-vector-icons/FontAwesome5';
+import axios from 'axios'
+import Api from '../../Api'
 
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
 
 const CareerList = ({navigation}) => {
+
+    const [job, setJob] = useState ('')
+    
+    const fetcData = async () => {
+        try {
+
+            const responseJob = await Api.indexJob()
+            setJob(responseJob.data.data)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        fetcData()
+    }, [])
 
   return (
     <View style={styles.container}>
@@ -29,38 +48,17 @@ const CareerList = ({navigation}) => {
                     <Gap height={10}/>
                 </View>
                 <View style={styles.section}>
-                  <View style={{ paddingVertical: 5 }}>
-                      <CardCareer
-                          title={'Lorem Ipsum is simply dummy text'}
-                          author={''}
-                          date={''}
-                          onPress={ () => navigation.navigate('AgendaDetail')}
-                      />
-                  </View>
-                  <View style={{ paddingVertical: 5 }}>
-                      <CardCareer
-                          title={'Lorem Ipsum is simply dummy text'}
-                          author={''}
-                          date={''}
-                          onPress={ () => navigation.navigate('AgendaDetail')}
-                      />
-                  </View>
-                  <View style={{ paddingVertical: 5 }}>
-                      <CardCareer
-                          title={'Lorem Ipsum is simply dummy text'}
-                          author={''}
-                          date={''}
-                          onPress={ () => navigation.navigate('AgendaDetail')}
-                      />
-                  </View>
-                  <View style={{ paddingVertical: 5 }}>
-                      <CardCareer
-                          title={'Lorem Ipsum is simply dummy text'}
-                          author={''}
-                          date={''}
-                          onPress={ () => navigation.navigate('AgendaDetail')}
-                      />
-                  </View>
+                    { Object.values(job).map((data) => {
+                        return (
+                            <CardCareer key={data.id}
+                                title={data.title}
+                                description={data.description}
+                                salary={data.salary}
+                                typeJob={data.job_type}
+                                onPress={ () => navigation.navigate('CareerDetail') }
+                            />
+                        )
+                    }) }
                 </View>
             </View>
         </ScrollView>

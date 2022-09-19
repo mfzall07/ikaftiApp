@@ -1,11 +1,38 @@
+import React, {useState, useEffect} from 'react'
 import moment from 'moment'
-import React from 'react'
 import { ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Gap } from '../../component'
 import { colors } from '../../utils'
 import Icons from 'react-native-vector-icons/FontAwesome5';
+import Api from '../../Api'
+import axios from 'axios'
+import RenderHTML from 'react-native-render-html'
 
-const AgendaDetail = ({navigation}) => {
+const AgendaDetail = ({navigation, route}) => {
+
+  const { id } = route.params
+  const [showAgenda, setShowAgenda] = useState('')
+  
+  const fetcData = async () => {
+    try {
+        const responseAgenda = await Api.showAgenda(id)
+        setShowAgenda(responseAgenda.data.data)
+    } catch (error) {
+        console.log(error)
+    }
+  }
+
+  const source = {
+    html: showAgenda.body
+  };
+
+  console.log(source)
+  
+
+useEffect(() => {
+    fetcData()
+}, [])
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
@@ -20,14 +47,29 @@ const AgendaDetail = ({navigation}) => {
           </TouchableOpacity>
           <Gap height={10}/>
           <View>
-              <Text style={styles.headerTitle}>Lorem Ipsum is simply dummy text</Text>
+              <Text style={styles.headerTitle} numberOfLines={2}>{showAgenda.title}</Text>
               <View style={styles.line}></View>
-              <Gap height={30}/>
+              <Gap height={10}/>
+          </View>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={styles.info}>Author</Text>
+              <Gap width={5}/>
+              <Text style={styles.infos}>{showAgenda.author}</Text>
+            </View>
+            <Gap width={15}/>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={styles.info}>Date</Text>
+              <Gap width={5}/>
+              <Text style={styles.infos}>{moment(showAgenda.created_at).format('DD MMM YYYY')}</Text>
+            </View>
+            <Gap height={30}/>
           </View>
           <View>
-            <Text style={styles.content}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </Text>
+            {/* <Text style={styles.content} >
+              {showAgenda.body}
+            </Text> */}
+            <RenderHTML source={source}/>
           </View>
         </View>
       </ScrollView>
@@ -73,6 +115,16 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
     color: colors.Black,
     fontFamily: 'Poppins'
+  },
+  info: {
+    fontFamily: 'Poppins-Bold',
+    fontSize: 10,
+    color: colors.Black
+  },
+  infos: {
+    fontFamily: 'Poppins',
+    fontSize: 10,
+    color: colors.Black
   }
 })
 

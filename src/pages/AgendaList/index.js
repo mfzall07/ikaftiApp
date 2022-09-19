@@ -1,11 +1,29 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { CardAgenda, Gap } from '../../component'
 import { colors } from '../../utils'
 import moment from 'moment'
 import Icons from 'react-native-vector-icons/FontAwesome5';
+import Api from '../../Api'
+import axios from 'axios'
 
 const AgendaList = ({navigation}) => {
+
+    const [agenda, setAgenda] = useState ('')
+
+    const fetcData = async () => {
+        try {
+            const responseAgenda = await Api.indexAgenda()
+            setAgenda(responseAgenda.data.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        fetcData()
+    }, [])
+
   return (
     <View style={styles.container}>
         <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
@@ -25,34 +43,20 @@ const AgendaList = ({navigation}) => {
                     <Gap height={10}/>
                 </View>
                 <View style={styles.section}>
-                    <CardAgenda
-                        title={'Lorem Ipsum is simply dummy text'}
-                        author={''}
-                        date={''}
-                        onPress={ () => navigation.navigate('AgendaDetail')}
-                    />
-                    <Gap height={10}/>
-                    <CardAgenda
-                        title={'Lorem Ipsum is simply dummy text'}
-                        author={''}
-                        date={''}
-                        onPress={ () => navigation.navigate('AgendaDetail')}
-                    />
-                    <Gap height={10}/>
-                    <CardAgenda
-                        title={'Lorem Ipsum is simply dummy text'}
-                        author={''}
-                        date={''}
-                        onPress={ () => navigation.navigate('AgendaDetail')}
-                    />
-                    <Gap height={10}/>
-                    <CardAgenda
-                        title={'Lorem Ipsum is simply dummy text'}
-                        author={''}
-                        date={''}
-                        onPress={ () => navigation.navigate('AgendaDetail')}
-                    />
-                    <Gap height={10}/>
+                    {Object.values(agenda).map((data) => {
+                        const params = {
+                            id : data.id
+                        }
+                        return (
+                            <CardAgenda key={data.id}
+                                title={data.title}
+                                author={data.author}
+                                image={data.thumbnail}
+                                date={moment(data.created_at).format('DD MMM YYYY')}
+                                onPress={ () => navigation.navigate('AgendaDetail', params)}
+                            />
+                        )
+                    })}
                 </View>
             </View>
         </ScrollView>

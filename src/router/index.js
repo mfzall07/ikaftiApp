@@ -32,7 +32,7 @@ const Router = () => {
                 headerShown: false, 
                 animation: 'slide_from_right',
             }}
-            initialRouteName='NavigationAdmin'
+            initialRouteName='Navigation'
         >
             <Stack.Screen name="Splash" component={Splash} />
             <Stack.Screen name="Navigation" component={Navigation} />

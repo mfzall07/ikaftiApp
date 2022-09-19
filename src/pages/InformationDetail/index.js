@@ -6,38 +6,39 @@ import { colors } from '../../utils'
 import Icons from 'react-native-vector-icons/FontAwesome5';
 
 const InformationDetail = ({navigation}) => {
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.main}>
-          <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }} onPress={ () => navigation.goBack()}>
-              <Icons name="arrow-circle-left" size={20} color={ colors.Black }/>
-              <Gap width={10}/>
-              <Text style={{ fontFamily: 'Poppins-Bold', color: colors.Black, top: 2}}>
-                  Back
+
+    return (
+      <View style={styles.container}>
+        <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.main}>
+            <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }} onPress={ () => navigation.goBack()}>
+                <Icons name="arrow-circle-left" size={20} color={ colors.Black }/>
+                <Gap width={10}/>
+                <Text style={{ fontFamily: 'Poppins-Bold', color: colors.Black, top: 2}}>
+                    Back
+                </Text>
+            </TouchableOpacity>
+            <Gap height={10}/>
+            <View>
+                <Text style={styles.headerTitle}>Lorem Ipsum is simply dummy text</Text>
+                <View style={styles.line}></View>
+                <Gap height={10}/>
+                <View style={styles.subHeader}>
+                  <Text style={styles.headersTitle} numberOfLines={1}>Lorem Ipsum</Text>
+                  <Text style={styles.headerSubTitle}>{moment().format('DD MMM YYYY')}</Text>
+                </View>
+                <Gap height={30}/>
+            </View>
+            <View>
+              <Text style={styles.content}>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
               </Text>
-          </TouchableOpacity>
-          <Gap height={10}/>
-          <View>
-              <Text style={styles.headerTitle}>Lorem Ipsum is simply dummy text</Text>
-              <View style={styles.line}></View>
-              <Gap height={10}/>
-              <View style={styles.subHeader}>
-                <Text style={styles.headersTitle} numberOfLines={1}>Lorem Ipsum</Text>
-                <Text style={styles.headerSubTitle}>{moment().format('DD MMM YYYY')}</Text>
-              </View>
-              <Gap height={30}/>
+            </View>
           </View>
-          <View>
-            <Text style={styles.content}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </Text>
-          </View>
-        </View>
-      </ScrollView>
-    </View>
-  )
+        </ScrollView>
+      </View>
+    )
 }
 
 const styles = StyleSheet.create({

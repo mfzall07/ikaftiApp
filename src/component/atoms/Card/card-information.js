@@ -8,12 +8,12 @@ import Gap from '../Gap'
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const CardInformation = ({title, author, date, onPress}) => {
+const CardInformation = ({title, author, date, onPress, image}) => {
     return(
         <TouchableOpacity onPress={onPress}>
             <View style={styles.card}>
                 <View style={styles.imageCard}>
-                    <Image source={exampleContent} style={styles.image}/>
+                    <Image source={{uri:image}} style={styles.image}/>
                 </View>
                 <View style={styles.contentCard}>
                     <Text style={styles.title} numberOfLines={2}>{title}</Text>
@@ -22,13 +22,13 @@ const CardInformation = ({title, author, date, onPress}) => {
                         <Text style={styles.author} numberOfLines={1}>
                             <Icon name="user" size={14} color={colors.Red}/>
                             <Gap width={10}/>
-                            {author ? '' : '-'}
+                            {author ? author : '-'}
                         </Text>
                         <Gap width={10}/>
                         <Text style={styles.date} numberOfLines={1}>
                             <Icon name="calendar" size={14} color={colors.Red}/>
                             <Gap width={9}/>
-                            {date ? '' : '-'}
+                            {date ? date : '-'}
                         </Text>
                     </View>
                 </View>
