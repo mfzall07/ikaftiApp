@@ -10,11 +10,11 @@ import Gap from '../Gap'
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const CardAlumniList = ({fullname, domicile, email, generation}) => {
+const CardAlumniList = ({fullname, domicile, email, generation, image}) => {
     return(
         <View style={styles.card}>
             <View style={styles.imageCard}>
-                <Image source={exampleContent} style={styles.image}/>
+                <Image source={{uri: image}} style={styles.image}/>
             </View>
             <View style={styles.contentCard}>
                 <View>

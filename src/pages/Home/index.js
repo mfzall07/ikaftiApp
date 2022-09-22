@@ -4,6 +4,7 @@ import Api from "../../Api";
 import { CardAgenda, CardAnnouncement, CardCareer, CardInformation, Gap } from "../../component/atoms";
 import { colors } from "../../utils"
 import moment from "moment";
+import * as Progress from 'react-native-progress';
 
 const Home = ({navigation}) => {
 
@@ -11,6 +12,7 @@ const Home = ({navigation}) => {
     const [information, setInformation] = useState ('')
     const [agenda, setAgenda] = useState ('')
     const [job, setJob] = useState ('')
+    const [progress, setProgress] = useState('')
     
     const fetcData = async () => {
         try {
@@ -25,6 +27,10 @@ const Home = ({navigation}) => {
 
             const responseJob = await Api.indexJob()
             setJob(responseJob.data.data)
+
+            const percentage = await Api.ProgressBar()
+            setProgress(percentage.data)
+            console.log(percentage.data)
         } catch (error) {
             console.log(error)
         }
@@ -53,6 +59,29 @@ const Home = ({navigation}) => {
                     </ScrollView>
                 </View>
                 <View style={styles.main}>
+                    {/* <View style={styles.progress}>
+                        <View style={{ alignItems: 'center' }}>
+                            <Progress.Circle size={75} progress={progress.percentage1 / 100} showsText={true}/>
+                            <Gap height={5}/>
+                            <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 12, color: colors.Black }}>1987-1996</Text>
+                        </View>
+                        <View style={{ alignItems: 'center' }}>
+                            <Progress.Circle size={75} progress={progress.percentage2 / 100} showsText={true}/>
+                            <Gap height={5}/>
+                            <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 12, color: colors.Black }}>1997-2006</Text>
+                        </View>
+                        <View style={{ alignItems: 'center' }}>
+                            <Progress.Circle size={75} progress={progress.percentage3 / 100} showsText={true}/>
+                            <Gap height={5}/>
+                            <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 12, color: colors.Black }}>2007-2016</Text>
+                        </View>
+                        <View style={{ alignItems: 'center' }}>
+                            <Progress.Circle size={75} progress={progress.percentage4 / 100} showsText={true}/>
+                            <Gap height={5}/>
+                            <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 12, color: colors.Black }}>2017-2018</Text>
+                        </View>
+                    </View> */}
+                    <Gap height={20}/>
                     <View style={styles.sectionInformation}>
                         <View style={styles.informationHeader}>
                             <Text style={styles.informationText}>Informations</Text>
@@ -137,6 +166,10 @@ const styles = StyleSheet.create({
     },
     main: {
         padding: 16,
+    },
+    progress: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     sectionInformation: {
         width: '100%',

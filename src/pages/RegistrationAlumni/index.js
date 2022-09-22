@@ -72,19 +72,20 @@ const RegistrationAlumni = ({navigation}) => {
             birth_date : dateBirth,
             generation: generation,
             program_studi : programStudi,
+            image : photoDB
         }
         try {
             const postDataRegister = await Api.registerAlumni(dataRegister)
             setSuccess(true)
             setInterval(() => {
                 setSuccess(false)
-            }, 5000);
-            console.log('success')
+            }, 3000);
+            navigate('Home')
         } catch (error) {
             setNotMatch(true)
             setInterval(() => {
                 setNotMatch(false)
-            }, 5000);
+            }, 3000);
             console.log(error)
         }
     }

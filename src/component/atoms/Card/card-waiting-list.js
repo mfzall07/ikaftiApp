@@ -7,10 +7,10 @@ import Gap from '../Gap';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const CardWaitingList = ({name, onPress}) => {
+const CardWaitingList = ({name, onPress, image}) => {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
-        <Image source={exampleContent} style={styles.avatar}/>
+        <Image source={{uri: image}} style={styles.avatar}/>
         <Gap width={20}/>
         <Text style={styles.name}>{name}</Text>
     </TouchableOpacity>
@@ -41,7 +41,8 @@ const styles = StyleSheet.create({
     },
     name: {
         fontFamily: 'Poppins-Bold',
-        color: colors.Black
+        color: colors.Black,
+        textTransform: 'capitalize'
     }
 })
 

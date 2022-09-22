@@ -47,7 +47,7 @@ class Api{
     }
 
     // Alumni List
-    Alumni(data) {
+    static registerAlumni(data) {
         let path = 'v1/alumni-register';
         return request(`${this.urlAPI()}${path}`, {
             method: 'POST',
@@ -55,9 +55,58 @@ class Api{
         })
     }
 
+    // Waiting List
+    static WaitingList(token) {
+        let path = `v1/waiting-list`
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+    }
+
+    static WaitingListDetail(id, token) {
+        let path = `v1/alumni/${id}`;
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+    }
+
+    static WaitingListApprove(id, token) {
+        let path = `v1/approve-alumni/${id}`;
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+    }
+    
+    static WaitingListDecline(id, token) {
+        let path = `v1/decline-alumni/${id}`;
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+    }
+
     // Job
     static indexJob() {
         let path = 'v1/job';
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'GET',
+        })
+    }
+    
+    // Progress Bar
+    static ProgressBar() {
+        let path = 'v1/percentage-alumni';
         return request(`${this.urlAPI()}${path}`, {
             method: 'GET',
         })

@@ -26,7 +26,6 @@ const Login = ({navigation}) => {
         try {
             const resopnseLogin = await Api.login(username, password)
             if (resopnseLogin.data.success === true) {
-                console.log('ini apa',resopnseLogin.data)
                 const data = {
                     token : resopnseLogin.data.access_token
                 }

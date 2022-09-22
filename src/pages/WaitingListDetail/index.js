@@ -1,122 +1,178 @@
 import moment from 'moment'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Image, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { exampleContent } from '../../assets'
 import { CardWaitingList, Gap } from '../../component'
 import { colors } from '../../utils'
 import Icons from 'react-native-vector-icons/FontAwesome5';
+import Api from '../../Api'
 
-const WaitingListDetail = ({navigation}) => {
+const WaitingListDetail = ({navigation, route}) => {
 
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.main}>
-            <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }} onPress={ () => navigation.goBack()}>
-                <Icons name="arrow-circle-left" size={20} color={ colors.Black }/>
-                <Gap width={10}/>
-                <Text style={{ fontFamily: 'Poppins-Bold', color: colors.Black, top: 2}}>
-                    Back
-                </Text>
-            </TouchableOpacity>
-            <Gap height={10}/>
-            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <View>
-                    <Text style={styles.headerTitle}>Muh Faizal</Text>
-                </View>
-            </View>
-            <View style={styles.line}></View>
-            <Gap height={30}/>
-            <View>
-                <Image source={exampleContent} resizeMode="cover" style={styles.image}/>
-                <Gap height={10}/>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ width: 136 }}>
-                        <Text style={styles.fieldName}>Address</Text>
+    const { id, token } = route.params
+
+    const [waitingListDetail, setWaitingListDetail] = useState('')
+    const [success, setSuccess] = useState(false)
+    const [decline, setDecline] = useState(false)
+  
+    const fetcData = async () => {
+        try {
+            const response = await Api.WaitingListDetail(id)
+            setWaitingListDetail(response.data.data)
+            console.log(response.data.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleApprove = async () => {
+        try {
+            const postData = await Api.WaitingListApprove(id, token)
+            setInterval(() => {
+                setSuccess(true)
+            }, 5000);
+            navigation.replace('WaitingList')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    
+    const handleDecline = async () => {
+        try {
+            const rmvData = await Api.WaitingListDecline(id, token)
+            setInterval(() => {
+                setDecline(true)
+            }, 5000);
+            navigation.replace('WaitingList')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        fetcData()
+    }, [])
+
+    return (
+        <View style={styles.container}>
+            <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={styles.main}>
+                    <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }} onPress={ () => navigation.goBack()}>
+                        <Icons name="arrow-circle-left" size={20} color={ colors.Black }/>
+                        <Gap width={10}/>
+                        <Text style={{ fontFamily: 'Poppins-Bold', color: colors.Black, top: 2}}>
+                            Back
+                        </Text>
+                    </TouchableOpacity>
+                    <Gap height={10}/>
+                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <View>
+                            <Text style={styles.headerTitle}>{waitingListDetail.name}</Text>
+                        </View>
                     </View>
-                    <Gap width={10}/>
-                    <Text style={styles.valueField}>Beringin</Text>
-                </View>
-                <Gap height={10}/>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ width: 136 }}>
-                        <Text style={styles.fieldName}>Email</Text>
+                    <View style={styles.line}></View>
+                    <Gap height={30}/>
+                    <View>
+                        <Image source={{uri: waitingListDetail.image}} resizeMode="cover" style={styles.image}/>
+                        <Gap height={10}/>
+                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                            <View style={{ width: 136 }}>
+                                <Text style={styles.fieldName}>Address</Text>
+                            </View>
+                            <Gap width={10}/>
+                            <Text style={styles.valueField}>{waitingListDetail.address}</Text>
+                        </View>
+                        <Gap height={10}/>
+                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                            <View style={{ width: 136 }}>
+                                <Text style={styles.fieldName}>Email</Text>
+                            </View>
+                            <Gap width={10}/>
+                            <Text style={styles.valueField}>{waitingListDetail.email}</Text>
+                        </View>
+                        <Gap height={10}/>
+                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                            <View style={{ width: 136 }}>
+                                <Text style={styles.fieldName}>Program Studi</Text>
+                            </View>
+                            <Gap width={10}/>
+                            <Text style={styles.valueField}>{waitingListDetail.program_studi}</Text>
+                        </View>
+                        <Gap height={10}/>
+                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                            <View style={{ width: 136 }}>
+                                <Text style={styles.fieldName}>Birth Place</Text>
+                            </View>
+                            <Gap width={10}/>
+                            <Text style={styles.valueField}>{waitingListDetail.birth_place}</Text>
+                        </View>
+                        <Gap height={10}/>
+                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                            <View style={{ width: 136 }}>
+                                <Text style={styles.fieldName}>Birth Date</Text>
+                            </View>
+                            <Gap width={10}/>
+                            <Text style={styles.valueField}>{moment(waitingListDetail.birth_date).format('DD MMM YYYY')}</Text>
+                        </View>
+                        <Gap height={10}/>
+                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                            <View style={{ width: 136 }}>
+                                <Text style={styles.fieldName}>Generation</Text>
+                            </View>
+                            <Gap width={10}/>
+                            <Text style={styles.valueField}>{waitingListDetail.generation}</Text>
+                        </View>
+                        <Gap height={10}/>
+                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                            <View style={{ width: 136 }}>
+                                <Text style={styles.fieldName}>Domicile Dist/City</Text>
+                            </View>
+                            <Gap width={10}/>
+                            <Text style={styles.valueField}>{waitingListDetail.domicile}</Text>
+                        </View>
+                        <Gap height={10}/>
+                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                            <View style={{ width: 136 }}>
+                                <Text style={styles.fieldName}>Phone Number</Text>
+                            </View>
+                            <Gap width={10}/>
+                            <Text style={styles.valueField}>{waitingListDetail.phone}</Text>
+                        </View>
+                        <Gap height={10}/>
+                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                            <View style={{ width: 136 }}>
+                                <Text style={styles.fieldName}>Current Company</Text>
+                            </View>
+                            <Gap width={10}/>
+                            <Text style={styles.valueField}>{waitingListDetail.company}</Text>
+                        </View>
                     </View>
-                    <Gap width={10}/>
-                    <Text style={styles.valueField}>mfzall037@gmail.com</Text>
+                    { success == true && 
+                        <View>
+                            <Text style={{ color: '#22c55e', textAlign: 'center', fontFamily: 'Poppins' }}>Success Add Data</Text>
+                            <Gap height={20}/>
+                        </View>
+                    }
+                    { decline == true && 
+                        <View>
+                            <Text style={{ color: colors.Red, textAlign: 'center', fontFamily: 'Poppins' }}>Success Add Data</Text>
+                            <Gap height={20}/>
+                        </View>
+                    }
+                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                        <TouchableOpacity style={styles.Button} onPress={handleDecline}>
+                            <Text style={styles.titleButton}>Decline</Text>
+                        </TouchableOpacity>
+                        <Gap width={10}/>
+                        <TouchableOpacity style={styles.Button} onPress={handleApprove}>
+                            <Text style={styles.titleButton}>Accept</Text>
+                        </TouchableOpacity>
+                    </View> 
                 </View>
-                <Gap height={10}/>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ width: 136 }}>
-                        <Text style={styles.fieldName}>Program Studi</Text>
-                    </View>
-                    <Gap width={10}/>
-                    <Text style={styles.valueField}>Informatika</Text>
-                </View>
-                <Gap height={10}/>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ width: 136 }}>
-                        <Text style={styles.fieldName}>Birth Place</Text>
-                    </View>
-                    <Gap width={10}/>
-                    <Text style={styles.valueField}>Makassar</Text>
-                </View>
-                <Gap height={10}/>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ width: 136 }}>
-                        <Text style={styles.fieldName}>Birth Date</Text>
-                    </View>
-                    <Gap width={10}/>
-                    <Text style={styles.valueField}>{moment().format('DD MMM YYYY')}</Text>
-                </View>
-                <Gap height={10}/>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ width: 136 }}>
-                        <Text style={styles.fieldName}>Generation</Text>
-                    </View>
-                    <Gap width={10}/>
-                    <Text style={styles.valueField}>2017</Text>
-                </View>
-                <Gap height={10}/>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ width: 136 }}>
-                        <Text style={styles.fieldName}>Domicile Dist/City</Text>
-                    </View>
-                    <Gap width={10}/>
-                    <Text style={styles.valueField}>Makassar</Text>
-                </View>
-                <Gap height={10}/>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ width: 136 }}>
-                        <Text style={styles.fieldName}>Phone Number</Text>
-                    </View>
-                    <Gap width={10}/>
-                    <Text style={styles.valueField}>812455274645</Text>
-                </View>
-                <Gap height={10}/>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ width: 136 }}>
-                        <Text style={styles.fieldName}>Current Company</Text>
-                    </View>
-                    <Gap width={10}/>
-                    <Text style={styles.valueField}>Vinpolls</Text>
-                </View>
-            </View>
-            <Gap height={20}/>
-            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                <TouchableOpacity style={styles.Button} >
-                    <Text style={styles.titleButton}>Decline</Text>
-                </TouchableOpacity>
-                <Gap width={10}/>
-                <TouchableOpacity style={styles.Button} >
-                    <Text style={styles.titleButton}>Accept</Text>
-                </TouchableOpacity>
-            </View> 
+            </ScrollView>
         </View>
-      </ScrollView>
-    </View>
-  )
+    )
 }
 
 const styles = StyleSheet.create({
@@ -126,13 +182,13 @@ const styles = StyleSheet.create({
     },
     main: {
         padding: 16,
-        borderWidth: 1, 
         height: 700
     },
     headerTitle: {
         fontFamily: 'Poppins-Bold', 
         color: colors.Black, 
-        fontSize: 18
+        fontSize: 18,
+        textTransform: 'capitalize'
     },
     line: {
         width: '65%',
@@ -157,12 +213,14 @@ const styles = StyleSheet.create({
     fieldName: {
         fontFamily: 'Poppins-Bold',
         color: colors.Black,
-        fontSize: 12
+        fontSize: 12,
+        alignSelf: 'baseline'
     },
     valueField: {
         color: colors.Black,
         fontFamily: 'Poppins',
-        fontSize: 12
+        fontSize: 12,
+        maxWidth: 195,
     },
     Button: {
         backgroundColor: 'transparent',

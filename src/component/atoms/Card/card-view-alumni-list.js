@@ -25,14 +25,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-
-        elevation: 5,
+        borderWidth: 1,
+        borderColor: colors.Gray
     },
     avatar: {
         width: 70,

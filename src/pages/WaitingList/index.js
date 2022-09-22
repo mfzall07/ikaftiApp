@@ -1,21 +1,46 @@
 import moment from 'moment'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Modal, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { CardWaitingList, Gap } from '../../component'
-import { colors, removeUserDetail } from '../../utils'
+import { colors, getData, removeUserDetail } from '../../utils'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import Api from '../../Api'
+import axios from 'axios'
+import { useIsFocused } from '@react-navigation/native'
 
 const WaitingList = ({navigation}) => {
-
+  const isFocused = useIsFocused();
   const [modalVisible, setmodalVisible] = useState(false);
-    const gotoRewards = () => {
-        setmodalVisible(!modalVisible)
-    }
+  const [token, setToken] = useState('')
+  const [items, setItems] = useState('')
 
-    const logout = () => {
-        removeUserDetail('user')
-        navigation.replace('Navigation') 
-    }
+  const getUser = () => {
+    getData('user').then(res => {
+        setToken(res.token)
+        const getWallet = async() => {
+            try {
+                const response = await Api.WaitingList(res.token)
+                setItems(response.data.data)
+                console.log(response.data.data)
+            } catch (error) {
+              console.log(error)
+            }
+        }
+        getWallet()
+    })
+  }
+  useEffect(() => {
+    isFocused && getUser()
+  }, [isFocused]) 
+
+  const gotoRewards = () => {
+    setmodalVisible(!modalVisible)
+  }
+
+  const logout = () => {
+      removeUserDetail('user')
+      navigation.replace('Navigation') 
+  }
 
   return (
     <View style={styles.container}>
@@ -34,7 +59,7 @@ const WaitingList = ({navigation}) => {
           <View style={styles.line}></View>
           <Gap height={30}/>
           <View>
-            <Text>asdasd</Text>
+            <Text style={{ fontFamily: 'Poppins-Bold', color: colors.Black }}>Welcome To IKAFTI</Text>
           </View>
           <Gap height={30}/>
           <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -45,10 +70,23 @@ const WaitingList = ({navigation}) => {
           <View style={styles.line}></View>
           <Gap height={30}/>
           <View>
-            <CardWaitingList
-                name={'Muh Faizal'}
-                onPress={ () => navigation.navigate('WaitingListDetail') }
-            />
+            { Object.values(items).map((data) => { 
+              const params = {
+                id : data.id,
+                token: token
+              }
+              return (
+                <View>
+                  <CardWaitingList key={data.id}
+                      name={data.name}
+                      image={data.image}
+                      onPress={ () => navigation.navigate('WaitingListDetail', params)}
+                  />
+                  <Gap height={10}/>
+                </View>
+                
+              )
+            }) }
             <Gap height={10}/>
           </View>
         </View>

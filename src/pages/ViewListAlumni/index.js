@@ -1,11 +1,15 @@
 import React, {useEffect, useState} from "react"
-import {View, Text, StyleSheet, StatusBar, ScrollView, TextInput} from "react-native"
+import {View, Text, StyleSheet, StatusBar, ScrollView, TextInput, FlatList, SafeAreaView} from "react-native"
 import { CardAlumniList, CardViewAlumniList, Gap } from "../../component";
 import { colors } from "../../utils"
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import axios from "axios";
 const ViewAlumniList = ({navigation}) => {
 
     const [borderColor, setBorderColor] = useState('#A1AEB7') ;
+    const [alumni, setAlumni] = useState('');
+    const [limitAlumni, setLimitAlumni] = useState(5);
+
     const onBlur = () => {
         setBorderColor('#A1AEB7')
     }
@@ -14,34 +18,58 @@ const ViewAlumniList = ({navigation}) => {
         setBorderColor(colors.Red)
     }
 
+    const fetchData = async() => {
+        try {
+            const responseAlumni = await axios.get('https://ikafti-umi.com/api/v1/alumni?limit='+limitAlumni)
+            setAlumni(responseAlumni.data.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+    
+    const render = ({item}) => {
+        return (
+            <View>
+                <CardViewAlumniList
+                    name={item.name}
+                    onPress={ () => navigation.navigate('ViewListAlumniDetail') }
+                />
+                <Gap height={15}/>
+            </View>
+        )
+    }
+
+    const loadMore = () => {
+        setLimitAlumni(limitAlumni+5)
+        fetchData()
+    }
+
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={styles.main}>
-                    <Gap height={10}/>
-                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <View>
-                        <Text style={styles.headerTitle}>Alumni List</Text>
-                        </View>
-                    </View>
-                    <View style={styles.line}></View>
-                    <Gap height={20}/>
-                    <View style={{ position: 'relative' }}>
-                        <TextInput style={styles.input(borderColor)} placeholder='Search' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
-                        <IonIcon name="search" color={colors.Gray} size={18} style={styles.icon} />
-                        <Gap height={10}/>
-                    </View>
+            <View style={styles.main}>
+                <Gap height={10}/>
+                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <View>
-                        <CardViewAlumniList
-                            name={'Muh Faizal'}
-                            onPress={ () => navigation.navigate('ViewListAlumniDetail') }
-                        />
-                        <Gap height={10}/>
+                    <Text style={styles.headerTitle}>Alumni List</Text>
                     </View>
                 </View>
-            </ScrollView>
-        </View>
+                <View style={styles.line}></View>
+                <Gap height={20}/>
+                <View style={{ position: 'relative' }}>
+                    <TextInput style={styles.input(borderColor)} placeholder='Search' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                    <IonIcon name="search" color={colors.Gray} size={18} style={styles.icon} />
+                    <Gap height={10}/>
+                </View>
+                <View>
+                    <FlatList showsVerticalScrollIndicator={false} data={alumni} renderItem={render} onEndReached={() => loadMore()}/>
+                </View>
+            </View>
+        </SafeAreaView>
     );
 };
 const styles = StyleSheet.create({

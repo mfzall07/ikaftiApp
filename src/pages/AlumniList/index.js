@@ -8,6 +8,8 @@ import axios, { Axios } from "axios";
 
 const AlumniList = ({navigation}) => {
 
+
+
     const [borderColor, setBorderColor] = useState('#A1AEB7') ;
     const [alumni, setAlumni] = useState('');
     const [limitAlumni, setLimitAlumni] = useState(4);
@@ -42,6 +44,7 @@ const AlumniList = ({navigation}) => {
                     domicile={item.domicile}
                     email={item.email}
                     generation={item.generation}
+                    image={item.image}
                 />
             </View>
         )
@@ -64,7 +67,7 @@ const AlumniList = ({navigation}) => {
                 <Gap height={10}/>
             </View>
             <FlatList showsVerticalScrollIndicator={false} data={alumni} renderItem={render} onEndReached={() => loadMore()}/>
-            <Gap height={10}/>
+            {/* <Gap height={10}/> */}
         </SafeAreaView>
     );
 };
@@ -73,8 +76,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.White,
         padding: 16,
-        borderWidth: 1,
-        borderColor: 'red'
     },
     input: borderColor => ( {
         borderWidth: 1,

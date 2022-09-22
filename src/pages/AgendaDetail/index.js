@@ -29,9 +29,9 @@ const AgendaDetail = ({navigation, route}) => {
   console.log(source)
   
 
-useEffect(() => {
-    fetcData()
-}, [])
+  useEffect(() => {
+      fetcData()
+  }, [])
 
   return (
     <View style={styles.container}>
