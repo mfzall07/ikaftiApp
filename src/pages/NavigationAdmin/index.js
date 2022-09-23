@@ -1,9 +1,9 @@
-import React, {useEffect} from "react"
+import React, {useEffect, useState} from "react"
 import {View, Text, StyleSheet, StatusBar} from "react-native"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import { colors } from "../../utils"
+import { colors, getData } from "../../utils"
 import AddAdmin from "../AddAdmin";
 import AddAnnouncement from "../AddAnnouncement";
 import WaitingList from "../WaitingList";
@@ -11,7 +11,22 @@ import ViewAlumniList from "../ViewListAlumni";
 import AddJob from "../AddJob";
 
 const Tab = createBottomTabNavigator();
-const NavigationAdmin = () => {
+const NavigationAdmin = (route) => {
+    
+    const [token, setToken] = useState('')
+    const [role, setRole] = useState('')
+
+    const getUser = () => {
+        getData('user').then(res => {
+            setToken(res.token)
+            setRole(res.role)
+        })
+    }
+
+    useEffect(() => {
+        getUser()
+    }, []) 
+
     return (
         <View style={styles.container}>
             <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>

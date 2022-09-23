@@ -1,15 +1,21 @@
-import moment from 'moment'
 import React, {useState} from 'react'
+import moment from 'moment'
 import { Image, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { Gap } from '../../component'
-import { colors } from '../../utils'
+import { colors, getData } from '../../utils'
 import { profile } from '../../assets'
+import Api from '../../Api'
+import { launchImageLibrary } from 'react-native-image-picker'
+import ToastManager, { Toast } from 'toastify-react-native'
 
 const AddAnnouncement = ({navigation}) => {
 
   const [borderColor, setBorderColor] = useState('#A1AEB7') ;
-    const [photo, setPhoto] = useState('');
-    const [photoDB, setPhotoDB] = useState("");
+  const [photo, setPhoto] = useState('');
+  const [photoDB, setPhotoDB] = useState('');
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [token, setToken] = useState('')
 
   const getImageFromGalery = () => {
     launchImageLibrary({ quality: 0.5, maxWidth: 200, maxHeight: 200, includeBase64: true }, (response) => {
@@ -26,9 +32,36 @@ const AddAnnouncement = ({navigation}) => {
       setBorderColor(colors.Red)
   }
 
+  const sendDataAnnouncement = () => {
+    
+    getData('user').then(res => {
+        setToken(res.token)
+        const sendData = async() => {
+          const dataAnnouncement = {
+              title : title,
+              description: description,
+              image : photoDB
+          }
+          try {
+              const postDataAnnouncement = await Api.AddAnnouncement(token, dataAnnouncement)
+              console.log(postDataAnnouncement.data.message)
+              if(postDataAnnouncement.data.message === 'Validation Error'){
+                Toast.error('Failed add announcement')
+              } else {
+                Toast.success('Success add announcement')
+              }
+          } catch (error) {
+              console.log(error)
+          }
+        }
+        sendData()
+    })
+  }  
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+      <ToastManager/>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.main}>
           <Gap height={10}/>
@@ -45,22 +78,22 @@ const AddAnnouncement = ({navigation}) => {
           <View>
             <View style={styles.imageMain}>
               <TouchableOpacity onPress={getImageFromGalery}>
-                  <Image source={photo === '' ? profile : { uri: photo }} style={styles.imageStyle} />
+                  <Image source={photo === '' ? profile : { uri: photo }} resizeMode='cover' style={styles.imageStyle} />
               </TouchableOpacity>
               <Text style={styles.imageText}>Upload Banner</Text>
             </View>
             <Gap height={10}/>
             <View>
                 <Text style={styles.title}>Title</Text>
-                <TextInput style={styles.input(borderColor)} placeholder='Title' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                <TextInput style={styles.input(borderColor)} placeholder='Title' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={title} onChangeText={ (value) => setTitle(value) }/>
             </View>
             <Gap height={10} />
             <View>
                 <Text style={styles.title}>Description</Text>
-                <TextInput style={styles.input(borderColor)} placeholder='Description' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                <TextInput style={styles.input(borderColor)} placeholder='Description' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={description} onChangeText={ (value) => setDescription(value) }/>
             </View>
             <Gap height={20} />
-            <TouchableOpacity style={styles.Button} >
+            <TouchableOpacity style={styles.Button} onPress={sendDataAnnouncement}>
               <Text style={styles.titleButton}>Submit</Text>
             </TouchableOpacity>
             <Gap height={20} />
@@ -106,10 +139,12 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },  
   imageStyle: {
-      width: 100, 
+      minWidth: 330,
+      maxWidth: 330, 
       height: 100, 
-      borderRadius: 50, 
+      borderRadius: 10, 
       alignSelf: 'center'
+      
   },
   imageText: {
       fontWeight: '700', 

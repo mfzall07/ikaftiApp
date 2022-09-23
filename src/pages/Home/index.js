@@ -59,28 +59,28 @@ const Home = ({navigation}) => {
                     </ScrollView>
                 </View>
                 <View style={styles.main}>
-                    {/* <View style={styles.progress}>
+                    <View style={styles.progress}>
                         <View style={{ alignItems: 'center' }}>
-                            <Progress.Circle size={75} progress={progress.percentage1 / 100} showsText={true}/>
+                            <Progress.Circle size={75} progress={progress.percentage1} showsText={true}/>
                             <Gap height={5}/>
                             <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 12, color: colors.Black }}>1987-1996</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>
-                            <Progress.Circle size={75} progress={progress.percentage2 / 100} showsText={true}/>
+                            <Progress.Circle size={75} progress={progress.percentage2} showsText={true}/>
                             <Gap height={5}/>
                             <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 12, color: colors.Black }}>1997-2006</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>
-                            <Progress.Circle size={75} progress={progress.percentage3 / 100} showsText={true}/>
+                            <Progress.Circle size={75} progress={progress.percentage3} showsText={true}/>
                             <Gap height={5}/>
                             <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 12, color: colors.Black }}>2007-2016</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>
-                            <Progress.Circle size={75} progress={progress.percentage4 / 100} showsText={true}/>
+                            <Progress.Circle size={75} progress={progress.percentage4} showsText={true}/>
                             <Gap height={5}/>
                             <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 12, color: colors.Black }}>2017-2018</Text>
                         </View>
-                    </View> */}
+                    </View>
                     <Gap height={20}/>
                     <View style={styles.sectionInformation}>
                         <View style={styles.informationHeader}>

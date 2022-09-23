@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     title: {
         color: colors.Black,
         fontSize: 12,
-        width: '60%',
+        maxWidth: 200,
         backgroundColor: colors.White,
         padding: 5,
         borderRadius: 5,
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         padding: 5,
         borderRadius: 5,
         opacity: 0.8,
-        width: 200
+        maxWidth: 200
     }
 
 })

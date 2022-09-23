@@ -1,16 +1,27 @@
-import moment from 'moment'
 import React, {useState} from 'react'
 import { Image, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { Gap } from '../../component'
-import { colors } from '../../utils'
+import { colors, getData } from '../../utils'
 import { profile } from '../../assets'
 import SelectDropdown from "react-native-select-dropdown";
+import Api from '../../Api'
+import { launchImageLibrary } from 'react-native-image-picker'
+import ToastManager, { Toast } from 'toastify-react-native'
 
 const AddJob = ({navigation}) => {
 
     const [borderColor, setBorderColor] = useState('#A1AEB7') ;
+    const [token, setToken] = useState('');
     const [photo, setPhoto] = useState('');
-    const [photoDB, setPhotoDB] = useState("");
+    const [photoDB, setPhotoDB] = useState('');
+    const [company, setCompany] = useState('');
+    const [phone, setPhone] = useState('');
+    const [jobPosition, setJobPosition] = useState('');
+    const [jobTypes, setJobTypes] = useState('');
+    const [placement, setPlacement] = useState('');
+    const [salary, setSalary] = useState('');
+    const [description, setDescription] = useState('');
+
     const jobType = ["Part Time", "Full Time"];
 
     const getImageFromGalery = () => {
@@ -28,9 +39,40 @@ const AddJob = ({navigation}) => {
         setBorderColor(colors.Red)
     }
 
+    const sendDataJob = () => {
+        getData('user').then(res => {
+            setToken(res.token)
+            const sendData = async() => {
+              const dataJob = {
+                    company_name : company,
+                    description : description,
+                    title : jobPosition,
+                    phone : phone,
+                    job_type : jobTypes,
+                    placement : placement,
+                    salary : salary,
+                    image : photoDB
+              }
+              try {
+                    const postDataJob = await Api.AddJob(token, dataJob)
+                    console.log(postDataJob)
+                    if ( postDataJob.data.message === 'Validation Error') {
+                        Toast.error('Failed to add job')
+                    } else {
+                        Toast.success('Job has been added')
+                    }
+              } catch (error) {
+                  console.log(error)
+              }
+            }
+            sendData()
+        })
+      }  
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+      <ToastManager />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.main}>
           <Gap height={10}/>
@@ -54,17 +96,17 @@ const AddJob = ({navigation}) => {
             <Gap height={10}/>
             <View>
                 <Text style={styles.title}>Company Name</Text>
-                <TextInput style={styles.input(borderColor)} placeholder='Company Name' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                <TextInput style={styles.input(borderColor)} placeholder='Company Name' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={company} onChangeText={ (value) => setCompany(value) }/>
             </View>
             <Gap height={10} />
             <View>
                 <Text style={styles.title}>Phone Number</Text>
-                <TextInput style={styles.input(borderColor)} placeholder='Phone Number' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                <TextInput style={styles.input(borderColor)} placeholder='Phone Number' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={phone} onChangeText={ (value) => setPhone(value) }/>
             </View>
             <Gap height={10} />
             <View>
                 <Text style={styles.title}>Job Position</Text>
-                <TextInput style={styles.input(borderColor)} placeholder='Job Position' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                <TextInput style={styles.input(borderColor)} placeholder='Job Position' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={jobPosition} onChangeText={ (value) => setJobPosition(value) }/>
             </View>
             <Gap height={10} />
             <View>
@@ -72,9 +114,7 @@ const AddJob = ({navigation}) => {
                 <SelectDropdown
                     defaultButtonText={'Choose Job Type'}
                     data={jobType}
-                    onSelect={(selectedItem, index) => {
-                        console.log(selectedItem, index)
-                    }}
+                    onSelect={(selectedItem) => setJobTypes(selectedItem)}
                     buttonTextAfterSelection={(selectedItem) => {
                         return selectedItem
                     }}
@@ -91,20 +131,20 @@ const AddJob = ({navigation}) => {
             <Gap height={10} />
             <View>
                 <Text style={styles.title}>Placement</Text>
-                <TextInput style={styles.input(borderColor)} placeholder='Placement' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                <TextInput style={styles.input(borderColor)} placeholder='Placement' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={placement} onChangeText={ (value) => setPlacement(value) }/>
             </View>
             <Gap height={10} />
             <View>
                 <Text style={styles.title}>Salary</Text>
-                <TextInput style={styles.input(borderColor)} placeholder='Salary' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                <TextInput style={styles.input(borderColor)} placeholder='Salary' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={salary} onChangeText={ (value) => setSalary(value) }/>
             </View>
             <Gap height={10} />
             <View>
                 <Text style={styles.title}>Description</Text>
-                <TextInput style={styles.input(borderColor)} placeholder='Description' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                <TextInput style={styles.input(borderColor)} placeholder='Description' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={description} onChangeText={ (value) => setDescription(value) }/>
             </View>
             <Gap height={20} />
-            <TouchableOpacity style={styles.Button} >
+            <TouchableOpacity style={styles.Button} onPress={sendDataJob}>
               <Text style={styles.titleButton}>Submit</Text>
             </TouchableOpacity>
             <Gap height={20} />

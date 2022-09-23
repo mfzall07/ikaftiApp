@@ -1,15 +1,25 @@
 import moment from 'moment'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Image, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { Gap } from '../../component'
-import { colors } from '../../utils'
+import { colors, getData } from '../../utils'
 import { profile } from '../../assets'
+import Api from '../../Api'
+import { launchImageLibrary } from 'react-native-image-picker'
+import axios from 'axios'
+import FlashMessage, {showMessage} from "react-native-flash-message"
+import ToastManager, { Toast } from 'toastify-react-native'
 
 const AddAdmin = ({navigation}) => {
 
   const [borderColor, setBorderColor] = useState('#A1AEB7') ;
-    const [photo, setPhoto] = useState('');
-    const [photoDB, setPhotoDB] = useState("");
+  const [fullname, setFullname] = useState('');
+  const [phone, setPhone] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [photo, setPhoto] = useState('');
+  const [photoDB, setPhotoDB] = useState('');
 
   const getImageFromGalery = () => {
     launchImageLibrary({ quality: 0.5, maxWidth: 200, maxHeight: 200, includeBase64: true }, (response) => {
@@ -26,9 +36,43 @@ const AddAdmin = ({navigation}) => {
       setBorderColor(colors.Red)
   }
 
+  const [token, setToken] = useState('')
+
+  const sendDataAdmin = () => {
+    getData('user').then(res => {
+        setToken(res.token)
+        const sendData = async() => {
+          const dataAdmin = {
+              name : fullname,
+              phone : phone,
+              email : email,
+              username : username,
+              password : password,
+              image : photoDB
+          }
+          try {
+              // console.log(dataAdmin)
+              const postDataAdmin = await Api.AddAdmin(token, dataAdmin)
+              console.log(postDataAdmin)
+              if (postDataAdmin.data.message === 'Validation Error') {
+                Toast.error('Change username/email.')
+              }
+              else {
+                Toast.success('Admin has been added')
+              }
+              console.log(postDataAdmin.data.message)
+          } catch (error) {
+              console.log(error)
+          }
+        }
+        sendData()
+    })
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+      <ToastManager/>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.main}>
           <Gap height={10}/>
@@ -52,30 +96,30 @@ const AddAdmin = ({navigation}) => {
             <Gap height={10}/>
             <View>
                 <Text style={styles.title}>Full Name</Text>
-                <TextInput style={styles.input(borderColor)} placeholder='Full Name' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                <TextInput style={styles.input(borderColor)} placeholder='Full Name' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={fullname} onChangeText={ (value) => setFullname(value)}/>
             </View>
             <Gap height={10} />
             <View>
                 <Text style={styles.title}>Phone Number</Text>
-                <TextInput style={styles.input(borderColor)} placeholder='Phone Number' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                <TextInput style={styles.input(borderColor)} placeholder='Phone Number' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={phone} onChangeText={ (value) => setPhone(value)}/>
             </View>
             <Gap height={10} />
             <View>
                 <Text style={styles.title}>Email</Text>
-                <TextInput style={styles.input(borderColor)} placeholder='Email' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                <TextInput style={styles.input(borderColor)} placeholder='Email' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={email} onChangeText={ (value) => setEmail(value)}/>
             </View>
             <Gap height={10} />
             <View>
                 <Text style={styles.title}>Username</Text>
-                <TextInput style={styles.input(borderColor)} placeholder='Username' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                <TextInput style={styles.input(borderColor)} placeholder='Username' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={username} onChangeText={ (value) => setUsername(value)}/>
             </View>
             <Gap height={10} />
             <View>
                 <Text style={styles.title}>Password</Text>
-                <TextInput style={styles.input(borderColor)} placeholder='Password' secureTextEntry={true} placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                <TextInput style={styles.input(borderColor)} placeholder='Password' secureTextEntry={true} placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={password} onChangeText={ (value) => setPassword(value)}/>
             </View>
             <Gap height={20} />
-            <TouchableOpacity style={styles.Button} >
+            <TouchableOpacity style={styles.Button} onPress={sendDataAdmin}>
               <Text style={styles.titleButton}>Submit</Text>
             </TouchableOpacity>
             <Gap height={20} />

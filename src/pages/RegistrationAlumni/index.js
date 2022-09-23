@@ -9,7 +9,8 @@ import { colors } from "../../utils"
 import moment from 'moment';
 import axios from "axios";
 import Api from "../../Api";
-import { err } from "react-native-svg/lib/typescript/xml";
+import { err } from "react-native-svg/lib/typescript/xml"
+import FlashMessage, { showMessage } from "react-native-flash-message"
 
 const RegistrationAlumni = ({navigation}) => {
 
@@ -76,16 +77,18 @@ const RegistrationAlumni = ({navigation}) => {
         }
         try {
             const postDataRegister = await Api.registerAlumni(dataRegister)
-            setSuccess(true)
-            setInterval(() => {
-                setSuccess(false)
-            }, 3000);
-            navigate('Home')
+            console.log(postDataRegister)
+            showMessage({
+                message: "Success",
+                description: "Success Registration",
+                type: "success",
+            });
         } catch (error) {
-            setNotMatch(true)
-            setInterval(() => {
-                setNotMatch(false)
-            }, 3000);
+            showMessage({
+                message: "Failed",
+                description: "Email or phone number has been ready in list",
+                type: "danger",
+            });
             console.log(error)
         }
     }
@@ -178,17 +181,6 @@ const RegistrationAlumni = ({navigation}) => {
                         <TextInput style={styles.input(borderColor)} placeholder='Company' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={company} onChangeText={(value) => setCompany(value)}/>
                     </View>
                     <Gap height={25} />
-                    { notMatch == true && 
-                    <View style={{ backgroundColor: '#FF1900', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 50 }}>
-                        <Text style={{ color: colors.White, textAlign: 'center', fontFamily: 'Poppins' }}>Alumni has been ready in list</Text>
-                    </View>
-                    }
-                    { success == true && 
-                        <View style={{ backgroundColor: '#22c55e', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 20 }}>
-                            <Text style={{ color: colors.White, textAlign: 'center', fontFamily: 'Poppins' }}>Success Registration</Text>
-                        </View>
-                    }
-                    <Gap height={25} />
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         <TouchableOpacity style={styles.Button} >
                             <Text style={styles.titleButton}>Back To Home</Text>
@@ -201,6 +193,7 @@ const RegistrationAlumni = ({navigation}) => {
                     <Gap height={20} />
                 </View>
             </ScrollView>
+            <FlashMessage position="top" />
         </View>
     );
 };

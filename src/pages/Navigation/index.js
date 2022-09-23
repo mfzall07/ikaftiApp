@@ -12,6 +12,9 @@ import About from "../About";
 
 const Tab = createBottomTabNavigator();
 const Navigation = () => {
+
+    
+
     return (
         <View style={styles.container}>
             <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>

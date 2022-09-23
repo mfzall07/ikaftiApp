@@ -36,6 +36,7 @@ const ViewAlumniList = ({navigation}) => {
             <View>
                 <CardViewAlumniList
                     name={item.name}
+                    image={item.image}
                     onPress={ () => navigation.navigate('ViewListAlumniDetail') }
                 />
                 <Gap height={15}/>

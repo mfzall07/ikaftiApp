@@ -5,6 +5,7 @@ import { IkaftiBlack } from "../../assets";
 import { Gap } from "../../component/atoms";
 import { colors, storeData } from "../../utils"
 import axios from "axios"
+import FlashMessage, { showMessage } from "react-native-flash-message";
 
 const Login = ({navigation}) => {
 
@@ -27,16 +28,18 @@ const Login = ({navigation}) => {
             const resopnseLogin = await Api.login(username, password)
             if (resopnseLogin.data.success === true) {
                 const data = {
-                    token : resopnseLogin.data.access_token
+                    token : resopnseLogin.data.access_token,
+                    role : resopnseLogin.data.role
                 }
                 storeData('user', data)
                 
                 navigation.navigate('NavigationAdmin')
             } else {
-                setNotMatch(true)
-                setInterval(() => {
-                    setNotMatch(false)
-                }, 3000);
+                showMessage({
+                  message: "Failed login",
+                  description: "Invalid username and password",
+                  type: "danger",
+                });
             }
         } catch (error) {
             
@@ -46,12 +49,8 @@ const Login = ({navigation}) => {
     return (
         <View style={styles.container}>
             <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
-            { notMatch == true && 
-                <View style={{ backgroundColor: '#FF1900', paddingVertical: 10, paddingHorizontal: 20, borderWidth: 1, borderRadius: 50, top: 15, position: 'absolute' }}>
-                    <Text style={{ color: colors.White, textAlign: 'center', fontFamily: 'ProximaNova', fontWeight: '400' }}>Invalid username and password</Text>
-                </View>
-            }
-            <Image source={IkaftiBlack} style={{ width:'55%', height:'15%', resizeMode: 'stretch' }}/>
+            <Gap height={50}/>
+            <Image source={IkaftiBlack} style={{ width: 130, height: 50, resizeMode: 'cover', alignSelf: 'center' }}/>
             <Gap height={50}/>
             <View style={{ alignSelf: 'flex-start' }}>
                 <Text style={{ fontFamily: 'Poppins-Bold', color: colors.Black, fontSize: 24 }}>Login</Text>
@@ -73,6 +72,7 @@ const Login = ({navigation}) => {
             <TouchableOpacity style={styles.buttonLogin} onPress={ login }>
                 <Text style={styles.titleButtonLogin}>Login</Text>
             </TouchableOpacity>
+            <FlashMessage position="top" />
         </View>
     );
 };
@@ -81,10 +81,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.White,
         padding: 16,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
         width: '100%'
     },
     title: { 

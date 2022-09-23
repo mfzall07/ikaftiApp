@@ -16,11 +16,34 @@ class Api{
         })
     }
 
+    // Admin
+    static AddAdmin(token, data) {
+        let path = 'v1/admin';
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'POST',
+            data,
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+    }
+
     // Announcement
     static indexAnnouncement() {
         let path = 'v1/announcement';
         return request(`${this.urlAPI()}${path}`, {
             method: 'GET',
+        })
+    }
+
+    static AddAnnouncement(token, data) {
+        let path = 'v1/announcement';
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'POST',
+            data,
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
         })
     }
     
@@ -101,6 +124,17 @@ class Api{
         let path = 'v1/job';
         return request(`${this.urlAPI()}${path}`, {
             method: 'GET',
+        })
+    }
+
+    static AddJob(token, data) {
+        let path = 'v1/job';
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'POST',
+            data,
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
         })
     }
     
