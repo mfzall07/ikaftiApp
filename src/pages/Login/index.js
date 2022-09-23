@@ -5,7 +5,7 @@ import { IkaftiBlack } from "../../assets";
 import { Gap } from "../../component/atoms";
 import { colors, storeData } from "../../utils"
 import axios from "axios"
-import FlashMessage, { showMessage } from "react-native-flash-message";
+import ToastManager, { Toast } from "toastify-react-native";
 
 const Login = ({navigation}) => {
 
@@ -35,11 +35,7 @@ const Login = ({navigation}) => {
                 
                 navigation.navigate('NavigationAdmin')
             } else {
-                showMessage({
-                  message: "Failed login",
-                  description: "Invalid username and password",
-                  type: "danger",
-                });
+                Toast.error('Invalid username/password')
             }
         } catch (error) {
             
@@ -49,6 +45,7 @@ const Login = ({navigation}) => {
     return (
         <View style={styles.container}>
             <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+            <ToastManager/>
             <Gap height={50}/>
             <Image source={IkaftiBlack} style={{ width: 130, height: 50, resizeMode: 'cover', alignSelf: 'center' }}/>
             <Gap height={50}/>
@@ -72,7 +69,6 @@ const Login = ({navigation}) => {
             <TouchableOpacity style={styles.buttonLogin} onPress={ login }>
                 <Text style={styles.titleButtonLogin}>Login</Text>
             </TouchableOpacity>
-            <FlashMessage position="top" />
         </View>
     );
 };

@@ -11,6 +11,7 @@ import axios from "axios";
 import Api from "../../Api";
 import { err } from "react-native-svg/lib/typescript/xml"
 import FlashMessage, { showMessage } from "react-native-flash-message"
+import ToastManager, { Toast } from "toastify-react-native";
 
 const RegistrationAlumni = ({navigation}) => {
 
@@ -78,17 +79,9 @@ const RegistrationAlumni = ({navigation}) => {
         try {
             const postDataRegister = await Api.registerAlumni(dataRegister)
             console.log(postDataRegister)
-            showMessage({
-                message: "Success",
-                description: "Success Registration",
-                type: "success",
-            });
+            Toast.success('Success Registration')
         } catch (error) {
-            showMessage({
-                message: "Failed",
-                description: "Email or phone number has been ready in list",
-                type: "danger",
-            });
+            Toast.error('Change Email/Phone Number')
             console.log(error)
         }
     }
@@ -97,6 +90,7 @@ const RegistrationAlumni = ({navigation}) => {
     return (
         <View style={styles.container}>
             <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+            <ToastManager/>
             <ScrollView showsVerticalScrollIndicator={false} ref={(c) => {scroll = c}}>
                 <View>
                     <View style={styles.imageMain}>
@@ -193,7 +187,6 @@ const RegistrationAlumni = ({navigation}) => {
                     <Gap height={20} />
                 </View>
             </ScrollView>
-            <FlashMessage position="top" />
         </View>
     );
 };
