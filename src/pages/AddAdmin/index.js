@@ -80,7 +80,7 @@ const AddAdmin = ({navigation}) => {
             <View>
               <Text style={styles.headerTitle}>Add Admin</Text>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={ () => navigation.navigate('AddAdminList', token)}>
               <Text style={styles.see}>See List</Text>
             </TouchableOpacity>
           </View>

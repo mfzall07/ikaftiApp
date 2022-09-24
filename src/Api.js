@@ -27,6 +27,15 @@ class Api{
             },
         })
     }
+    static indexAdmin(token) {
+        let path = 'v1/admin';
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+    }
 
     // Announcement
     static indexAnnouncement() {
@@ -139,6 +148,13 @@ class Api{
     // Job
     static indexJob() {
         let path = 'v1/job';
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'GET',
+        })
+    }
+
+    static showJob(id) {
+        let path = `v1/job/${id}`;
         return request(`${this.urlAPI()}${path}`, {
             method: 'GET',
         })

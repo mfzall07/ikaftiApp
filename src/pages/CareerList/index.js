@@ -49,13 +49,17 @@ const CareerList = ({navigation}) => {
                 </View>
                 <View style={styles.section}>
                     { Object.values(job).map((data) => {
+                        const params = {
+                            id : data.id
+                        }
                         return (
                             <CardCareer key={data.id}
+                                image={data.image}
                                 title={data.title}
                                 description={data.description}
                                 salary={data.salary}
                                 typeJob={data.job_type}
-                                onPress={ () => navigation.navigate('CareerDetail') }
+                                onPress={ () => navigation.navigate('CareerDetail', params) }
                             />
                         )
                     }) }

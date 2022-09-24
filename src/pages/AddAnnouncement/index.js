@@ -69,7 +69,7 @@ const AddAnnouncement = ({navigation}) => {
             <View>
               <Text style={styles.headerTitle}>Add Announcement</Text>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={ () => navigation.navigate('AddAnnouncementList')}>
               <Text style={styles.see}>See List</Text>
             </TouchableOpacity>
           </View>

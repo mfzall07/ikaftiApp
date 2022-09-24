@@ -27,10 +27,10 @@ const Home = ({navigation}) => {
 
             const responseJob = await Api.indexJob()
             setJob(responseJob.data.data)
+            console.log(responseJob.data.data)
 
             const percentage = await Api.ProgressBar()
             setProgress(percentage.data)
-            console.log(percentage.data)
         } catch (error) {
             console.log(error)
         }
@@ -59,24 +59,38 @@ const Home = ({navigation}) => {
                     </ScrollView>
                 </View>
                 <View style={styles.main}>
+                    <Text style={styles.progressText}>Percentage Alumni</Text>
+                    <Gap height={10}/>
                     <View style={styles.progress}>
                         <View style={{ alignItems: 'center' }}>
-                            <Progress.Circle size={75} progress={progress.percentage1} showsText={true}/>
+                            <View style={{position:'relative', justifyContent: 'center', alignItems: 'center'}}>
+                                <Progress.Circle size={75} progress={progress.percentage1/100} color={colors.Red}/>
+                                <Text style={{position: 'absolute', color: colors.Red}}>{progress.percentage1}%</Text>
+                            </View>
                             <Gap height={5}/>
                             <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 12, color: colors.Black }}>1987-1996</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>
-                            <Progress.Circle size={75} progress={progress.percentage2} showsText={true}/>
+                            <View style={{position:'relative', justifyContent: 'center', alignItems: 'center'}}>
+                                <Progress.Circle size={75} progress={progress.percentage2/100} color={colors.Red}/>
+                                <Text style={{position: 'absolute', color: colors.Red}}>{progress.percentage2}%</Text>
+                            </View>
                             <Gap height={5}/>
                             <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 12, color: colors.Black }}>1997-2006</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>
-                            <Progress.Circle size={75} progress={progress.percentage3} showsText={true}/>
+                            <View style={{position:'relative', justifyContent: 'center', alignItems: 'center'}}>
+                                <Progress.Circle size={75} progress={progress.percentage3/100} color={colors.Red}/>
+                                <Text style={{position: 'absolute', color: colors.Red}}>{progress.percentage3}%</Text>
+                            </View>
                             <Gap height={5}/>
                             <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 12, color: colors.Black }}>2007-2016</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>
-                            <Progress.Circle size={75} progress={progress.percentage4} showsText={true}/>
+                            <View style={{position:'relative', justifyContent: 'center', alignItems: 'center'}}>
+                                <Progress.Circle size={75} progress={progress.percentage4/100} color={colors.Red}/>
+                                <Text style={{position: 'absolute', color: colors.Red}}>{progress.percentage4}%</Text>
+                            </View>
                             <Gap height={5}/>
                             <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 12, color: colors.Black }}>2017-2018</Text>
                         </View>
@@ -144,13 +158,17 @@ const Home = ({navigation}) => {
                         <Gap height={10} />
                         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
                             { Object.values(job).map((data) => {
+                                const params = {
+                                    id : data.id
+                                }
                                 return (
                                     <CardCareer key={data.id}
+                                        image={data.image}
                                         title={data.title}
                                         description={data.description}
                                         salary={data.salary}
                                         typeJob={data.job_type}
-                                        onPress={ () => navigation.navigate('CareerDetail') }
+                                        onPress={ () => navigation.navigate('CareerDetail', params) }
                                     />
                                 )
                             }) }
@@ -173,6 +191,12 @@ const styles = StyleSheet.create({
     progress: {
         flexDirection: 'row',
         justifyContent: 'space-between'
+    },
+    progressText: {
+        fontSize: 20,
+        textTransform: 'uppercase',
+        color: colors.Black,
+        fontFamily: 'Poppins-Bold',
     },
     sectionInformation: {
         width: '100%',

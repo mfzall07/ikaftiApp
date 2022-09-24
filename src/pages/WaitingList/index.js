@@ -15,7 +15,7 @@ const WaitingList = ({navigation}) => {
   const [items, setItems] = useState('')
 
   const getUser = () => {
-    getData('user').then(res => {
+      getData('user').then(res => {
         setToken(res.token)
         const getWallet = async() => {
             try {

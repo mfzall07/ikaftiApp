@@ -8,12 +8,12 @@ import Gap from '../Gap'
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const CardCareer = ({title, description, typeJob, salary, onPress}) => {
+const CardCareer = ({title, description, typeJob, salary, onPress, image}) => {
     return(
         <TouchableOpacity onPress={onPress}>
             <View style={styles.card}>
                 <View style={styles.imageCard}>
-                    <Image source={exampleContent} style={styles.image}/>
+                    <Image source={{ uri: image }} style={styles.image}/>
                 </View>
                 <View style={styles.contentCard}>
                     <Text style={styles.title} numberOfLines={1}>{title}</Text>

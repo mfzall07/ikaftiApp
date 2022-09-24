@@ -80,7 +80,7 @@ const AddJob = ({navigation}) => {
             <View>
               <Text style={styles.headerTitle}>Add Job</Text>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={ () => navigation.navigate('AddJobList')}>
               <Text style={styles.see}>See List</Text>
             </TouchableOpacity>
           </View>

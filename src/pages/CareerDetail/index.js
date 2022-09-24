@@ -1,11 +1,31 @@
 import moment from 'moment'
-import React from 'react'
-import { ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Image, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Gap } from '../../component'
 import { colors } from '../../utils'
-import Icons from 'react-native-vector-icons/FontAwesome5';
+import Icons from 'react-native-vector-icons/FontAwesome5'
+import Api from '../../Api'
+import axios from 'axios'
 
-const CareerDetail = ({navigation}) => {
+const CareerDetail = ({navigation, route}) => {
+
+  const { id } = route.params
+  const [showJob, setShowJob] = useState('')
+  
+  const fetcData = async () => {
+    try {
+        const responseJob = await Api.showJob(id)
+        setShowJob(responseJob.data.data)
+        console.log(responseJob.data.data)
+    } catch (error) {
+        console.log(error)
+    }
+  }
+
+  useEffect(() => {
+      fetcData()
+  }, [])
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
@@ -20,7 +40,7 @@ const CareerDetail = ({navigation}) => {
           </TouchableOpacity>
           <Gap height={10}/>
           <View>
-              <Text style={styles.headerTitle}>VINPOLLS</Text>
+              <Text style={styles.headerTitle}>{showJob.company_name}</Text>
               <View style={styles.line}></View>
               <Gap height={5}/>
               <View style={styles.subHeader}>
@@ -32,29 +52,36 @@ const CareerDetail = ({navigation}) => {
                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', padding: 5 }}>
                   <Icons name="clock" size={14} color={ colors.Black }/>
                   <Gap width={5}/>
-                  <Text style={styles.headersTitle} numberOfLines={1}>Full Time</Text>
+                  <Text style={styles.headersTitle} numberOfLines={1}>{showJob.job_type}</Text>
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', padding: 5 }}>
                   <Text style={{fontFamily: 'Poppins-Bold', color: colors.Black, fontSize: 12, top: 2}} numberOfLines={1}>Rp</Text>
                   <Gap width={5}/>
-                  <Text style={styles.headersTitle} numberOfLines={1}>5.000.000</Text>
+                  <Text style={styles.headersTitle} numberOfLines={1}>{showJob.salary}</Text>
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', padding: 5 }}>
                   <Icons name="map-marker-alt" size={14} color={ colors.Black }/>
                   <Gap width={5}/>
-                  <Text style={styles.headersTitle} numberOfLines={1}>Jakarta</Text>
+                  <Text style={styles.headersTitle} numberOfLines={1}>{showJob.placement}</Text>
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', padding: 5 }}>
                   <Icons name="phone-square" size={14} color={ colors.Black }/>
                   <Gap width={5}/>
-                  <Text style={styles.headersTitle} numberOfLines={1}>081242736712</Text>
+                  <Text style={styles.headersTitle} numberOfLines={1}>{showJob.phone}</Text>
                 </View>
               </View>
               <Gap height={30}/>
           </View>
+          <Gap height={10}/>
+          <Text style={styles.headerTitles}>{showJob.title}</Text>
+          <Gap height={10}/>
+          <View>
+            <Image source={{ uri: showJob.image }} resizeMode='cover' style={{ width: '100%', height: 150, borderRadius: 20 }}/>
+          </View>
+          <Gap height={20}/>
           <View>
             <Text style={styles.content}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              {showJob.description}
             </Text>
           </View>
         </View>
@@ -75,6 +102,11 @@ const styles = StyleSheet.create({
       fontFamily: 'Poppins-Bold', 
       color: colors.Black, 
       fontSize: 24
+  },
+  headerTitles: {
+      fontFamily: 'Poppins-Bold', 
+      color: colors.Black, 
+      fontSize: 18
   },
   subHeader: {
     display: 'flex',

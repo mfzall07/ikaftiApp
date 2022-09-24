@@ -1,18 +1,17 @@
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { Dimensions, Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
-import { exampleContent } from '../../../assets';
-import { colors } from '../../../utils';
-import Gap from '../Gap';
+import { colors } from '../../../utils'
+import Gap from '../Gap'
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-
-const CardViewAlumniList = ({name, onPress, image}) => {
+const CardList = ({onPress, image, name, desc}) => {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
         <Image source={{uri: image}} style={styles.avatar}/>
         <Gap width={20}/>
-        <Text style={styles.name}>{name}</Text>
+        <View>
+            <Text style={styles.name}>{name}</Text>
+            <Text style={styles.desc}>{desc}</Text>
+        </View>
     </TouchableOpacity>
   )
 }
@@ -36,8 +35,14 @@ const styles = StyleSheet.create({
     name: {
         fontFamily: 'Poppins-Bold',
         color: colors.Black,
-        maxWidth: 200
+        maxWidth: 250
+    },
+    desc: {
+        fontFamily: 'Poppins-Bold',
+        color: colors.Gray,
+        maxWidth: 250,
+        fontSize: 12
     }
 })
 
-export default CardViewAlumniList
+export default CardList

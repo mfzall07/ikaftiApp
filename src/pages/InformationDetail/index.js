@@ -1,6 +1,6 @@
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
-import { ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Gap } from '../../component'
 import { colors } from '../../utils'
 import Icons from 'react-native-vector-icons/FontAwesome5';
@@ -55,7 +55,10 @@ const InformationDetail = ({navigation, route}) => {
                 <Gap height={30}/>
             </View>
             <View>
-              <RenderHTML baseStyle={{color: colors.Black}} source={source}/>
+              <Image source={{ uri: showInformation.thumbnail }} resizeMode='cover' style={{ width: '100%', height: 150, borderRadius: 20 }}/>
+            </View>
+            <View>
+              <RenderHTML baseStyle={{color: colors.Black, textAlign: 'justify'}} source={source}/>
             </View>
           </View>
         </ScrollView>

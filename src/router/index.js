@@ -1,8 +1,10 @@
 import React from 'react'
 import {
     AddAdmin,
+    AddAdminList,
     AddAnnouncement,
     AddJob,
+    AddJobList,
     AgendaDetail,
     AgendaList,
     CareerDetail,
@@ -20,6 +22,7 @@ import {
 } from '../pages'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import AddAnnouncementList from '../pages/AddAnnouncementList';
 
 const Stack = createNativeStackNavigator();
 
@@ -44,13 +47,16 @@ const Router = () => {
             <Stack.Screen name="CareerList" component={CareerList} />
             <Stack.Screen name="NavigationAdmin" component={NavigationAdmin} />
             <Stack.Screen name="AddAdmin" component={AddAdmin} />
+            <Stack.Screen name="AddAdminList" component={AddAdminList} />
             <Stack.Screen name="AddAnnouncement" component={AddAnnouncement} />
+            <Stack.Screen name="AddAnnouncementList" component={AddAnnouncementList} />
             <Stack.Screen name="WaitingList" component={WaitingList} />
             <Stack.Screen name="WaitingListDetail" component={WaitingListDetail} />
             <Stack.Screen name="ViewAlumniList" component={ViewAlumniList} />
             <Stack.Screen name="ViewListAlumniDetail" component={ViewListAlumniDetail} />
             <Stack.Screen name="ViewListAlumniEdit" component={ViewListAlumniEdit} />
             <Stack.Screen name="AddJob" component={AddJob} />
+            <Stack.Screen name="AddJobList" component={AddJobList} />
         </Stack.Navigator>
     );
 }

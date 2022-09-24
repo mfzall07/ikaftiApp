@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import moment from 'moment'
-import { ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Gap } from '../../component'
 import { colors } from '../../utils'
 import Icons from 'react-native-vector-icons/FontAwesome5';
@@ -66,10 +66,13 @@ const AgendaDetail = ({navigation, route}) => {
             <Gap height={30}/>
           </View>
           <View>
+            <Image source={{ uri: showAgenda.thumbnail }} resizeMode='cover' style={{ width: '100%', height: 150, borderRadius: 20 }}/>
+          </View>
+          <View>
             {/* <Text style={styles.content} >
               {showAgenda.body}
             </Text> */}
-            <RenderHTML baseStyle={{color: colors.Black}} source={source}/>
+            <RenderHTML baseStyle={{color: colors.Black, textAlign: 'justify'}} source={source}/>
           </View>
         </View>
       </ScrollView>
