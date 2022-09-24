@@ -46,6 +46,10 @@ const InformationList = ({navigation}) => {
                     </View>
                     <View style={styles.section}>
                         {Object.values(information).map((data) => {
+                            const params = {
+                                id : data.id
+                            }
+                            console.log(params)
                             return(
                                 <View key={data.id}>
                                     <CardInformation
@@ -53,7 +57,7 @@ const InformationList = ({navigation}) => {
                                         image={data.thumbnail}
                                         author={data.author}
                                         date={moment(data.created_at).format('DD MMM YYYY')}
-                                        onPress={ () => navigation.navigate('InformationDetail') }
+                                        onPress={ () => navigation.navigate('InformationDetail', params) }
                                     />
                                     <Gap height={10}/>
                                 </View>

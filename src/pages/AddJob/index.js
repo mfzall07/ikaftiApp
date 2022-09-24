@@ -67,7 +67,7 @@ const AddJob = ({navigation}) => {
             }
             sendData()
         })
-      }  
+    }  
 
   return (
     <View style={styles.container}>

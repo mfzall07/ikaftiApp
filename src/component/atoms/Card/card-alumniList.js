@@ -18,29 +18,37 @@ const CardAlumniList = ({fullname, domicile, email, generation, image}) => {
             </View>
             <View style={styles.contentCard}>
                 <View>
-                    <Text style={styles.text} numberOfLines={1}>
-                        <Icon name="user" size={15} />
+                    <View style={{ flexDirection: 'row' }}>
+                        <Icon name="user" size={18} />
                         <Gap width={10}/>
-                        {fullname ? fullname : '-'}
-                    </Text>
+                        <Text style={styles.text} numberOfLines={2}>
+                            {fullname ? fullname : '-'}
+                        </Text>
+                    </View>
                     <Gap height={5}/>
-                    <Text style={styles.text} numberOfLines={1}>
-                        <Icons name="map" size={10} />
+                    <View style={{ flexDirection: 'row' }}>
+                        <Icon name="map" size={15} />
                         <Gap width={10}/>
-                        {domicile ? domicile : '-'}
-                    </Text>
+                        <Text style={styles.text} numberOfLines={2}>
+                            {domicile ? domicile : '-'}
+                        </Text>
+                    </View>
                     <Gap height={5}/>
-                    <Text style={styles.text} numberOfLines={1}>
-                        <IonIcon name="mail-open" size={11} />
+                    <View style={{ flexDirection: 'row' }}>
+                        <IonIcon name="mail-open" size={15} />
                         <Gap width={10}/>
-                        {email ? email : '-'}
-                    </Text>
+                        <Text style={styles.text} numberOfLines={2}>
+                            {domicile ? domicile : '-'}
+                        </Text>
+                    </View>
                     <Gap height={5}/>
-                    <Text style={styles.text} numberOfLines={1}>
-                        <Icon name="users" size={10} />
+                    <View style={{ flexDirection: 'row' }}>
+                        <Icon name="users" size={15} />
                         <Gap width={10}/>
-                        {generation ? generation : '-'}
-                    </Text>
+                        <Text style={styles.text} numberOfLines={2}>
+                            {generation ? generation : '-'}
+                        </Text>
+                    </View>
                     <Gap height={5}/>
                 </View>
             </View>
@@ -65,11 +73,11 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
     },
     imageCard: {
-        width: '100%',
-        height: '40%',
+        width: '40%',
+        height: '100%',
         alignItems: 'center',
         justifyContent: 'center',
         
@@ -93,7 +101,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins',
         textAlign: 'justify',
         fontSize: 14,
-        marginLeft: 1,
+        maxWidth: 175,
     },
     date: {
         color: colors.Gray,

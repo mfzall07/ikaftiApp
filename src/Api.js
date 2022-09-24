@@ -55,6 +55,13 @@ class Api{
         })
     }
     
+    static ShowInformation(id) {
+        let path = `v1/information/${id}`;
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'GET',
+        })
+    }
+    
     // Agenda
     static indexAgenda() {
         let path = 'v1/agenda';
@@ -75,6 +82,16 @@ class Api{
         return request(`${this.urlAPI()}${path}`, {
             method: 'POST',
             data,
+        })
+    }
+
+    static AlumniDetail(id, token) {
+        let path = `v1/alumni/${id}`;
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
         })
     }
 

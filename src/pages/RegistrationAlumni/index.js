@@ -79,9 +79,13 @@ const RegistrationAlumni = ({navigation}) => {
         try {
             const postDataRegister = await Api.registerAlumni(dataRegister)
             console.log(postDataRegister)
-            Toast.success('Success Registration')
+            if(postDataRegister.data.message === 'Validation Error'){
+                Toast.error('Please input a valid data')
+            }
+            else {
+                Toast.success('Success Registration')
+            }
         } catch (error) {
-            Toast.error('Change Email/Phone Number')
             console.log(error)
         }
     }

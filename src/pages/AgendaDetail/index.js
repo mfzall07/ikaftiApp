@@ -69,7 +69,7 @@ const AgendaDetail = ({navigation, route}) => {
             {/* <Text style={styles.content} >
               {showAgenda.body}
             </Text> */}
-            <RenderHTML source={source}/>
+            <RenderHTML baseStyle={{color: colors.Black}} source={source}/>
           </View>
         </View>
       </ScrollView>

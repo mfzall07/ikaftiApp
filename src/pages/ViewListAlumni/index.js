@@ -1,11 +1,14 @@
 import React, {useEffect, useState} from "react"
 import {View, Text, StyleSheet, StatusBar, ScrollView, TextInput, FlatList, SafeAreaView} from "react-native"
 import { CardAlumniList, CardViewAlumniList, Gap } from "../../component";
-import { colors } from "../../utils"
+import { colors, getData } from "../../utils"
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import axios from "axios";
+import { useIsFocused } from "@react-navigation/native";
 const ViewAlumniList = ({navigation}) => {
 
+    const isFocused = useIsFocused();
+    const [token, setToken] = useState('')
     const [borderColor, setBorderColor] = useState('#A1AEB7') ;
     const [alumni, setAlumni] = useState('');
     const [limitAlumni, setLimitAlumni] = useState(5);
@@ -18,26 +21,35 @@ const ViewAlumniList = ({navigation}) => {
         setBorderColor(colors.Red)
     }
 
-    const fetchData = async() => {
-        try {
-            const responseAlumni = await axios.get('https://ikafti-umi.com/api/v1/alumni?limit='+limitAlumni)
-            setAlumni(responseAlumni.data.data)
-        } catch (error) {
-            console.log(error)
-        }
+    const getDataAlumni = () => {
+        getData('user').then(res => {
+            setToken(res.token)
+            const fetchData = async() => {
+                try {
+                    const responseAlumni = await axios.get('https://ikafti-umi.com/api/v1/alumni?limit='+limitAlumni)
+                    setAlumni(responseAlumni.data.data)
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+            fetchData()
+        })
     }
-
     useEffect(() => {
-        fetchData()
-    }, [])
+        isFocused && getDataAlumni()
+    }, [isFocused]) 
     
     const render = ({item}) => {
+        const params = {
+            id : item.id,
+            token : token
+        }
         return (
             <View>
                 <CardViewAlumniList
                     name={item.name}
                     image={item.image}
-                    onPress={ () => navigation.navigate('ViewListAlumniDetail') }
+                    onPress={ () => navigation.navigate('ViewListAlumniDetail', params) }
                 />
                 <Gap height={15}/>
             </View>

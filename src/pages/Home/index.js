@@ -92,13 +92,16 @@ const Home = ({navigation}) => {
                         <Gap height={10} />
                         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
                             {Object.values(information).map((data) => {
+                                const params = {
+                                    id : data.id
+                                }
                                 return(
                                     <CardInformation key={data.id}
                                         title={data.title}
                                         image={data.thumbnail}
                                         author={data.author}
                                         date={moment(data.created_at).format('DD MMM YYYY')}
-                                        onPress={ () => navigation.navigate('InformationDetail') }
+                                        onPress={ () => navigation.navigate('InformationDetail', params) }
                                     />
                                 )
                             })}

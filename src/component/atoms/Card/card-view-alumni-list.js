@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
     },
     name: {
         fontFamily: 'Poppins-Bold',
-        color: colors.Black
+        color: colors.Black,
+        maxWidth: 250
     }
 })
 

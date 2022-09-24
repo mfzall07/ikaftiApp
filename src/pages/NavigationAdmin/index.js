@@ -47,6 +47,7 @@ const NavigationAdmin = (route) => {
                             <MaterialCommunityIcons name="account-multiple" color={colors.White} size={23} />
                         ),
                     }}
+                    initialParams={name}
                 />
                 <Tab.Screen
                     name="Announcement"

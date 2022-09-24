@@ -12,7 +12,7 @@ const CardWaitingList = ({name, onPress, image}) => {
     <TouchableOpacity style={styles.card} onPress={onPress}>
         <Image source={{uri: image}} style={styles.avatar}/>
         <Gap width={20}/>
-        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.name} numberOfLines={1}>{name}</Text>
     </TouchableOpacity>
   )
 }
@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
     name: {
         fontFamily: 'Poppins-Bold',
         color: colors.Black,
-        textTransform: 'capitalize'
+        textTransform: 'capitalize',
+        maxWidth: 250
     }
 })
 
