@@ -13,10 +13,12 @@ const WaitingList = ({navigation}) => {
   const [modalVisible, setmodalVisible] = useState(false);
   const [token, setToken] = useState('')
   const [items, setItems] = useState('')
+  const [role, setRole] = useState('')
 
   const getUser = () => {
       getData('user').then(res => {
         setToken(res.token)
+        setRole(res.role)
         const getWallet = async() => {
             try {
                 const response = await Api.WaitingList(res.token)
@@ -48,24 +50,33 @@ const WaitingList = ({navigation}) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.main}>
           <Gap height={10}/>
-          <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          {role === 'Super Admin' &&
             <View>
-              <Text style={styles.headerTitle}>Home</Text>
+              <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <View>
+                  <Text style={styles.headerTitle}>Home</Text>
+                </View>
+                <TouchableOpacity onPress={()=>setmodalVisible(!modalVisible)}>
+                  <MaterialCommunityIcons name="logout" color={colors.Red} size={23} />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.line}></View>
+              <Gap height={30}/>
+              <View>
+                <Text style={{ fontFamily: 'Poppins-Bold', color: colors.Black }}>Welcome To IKAFTI</Text>
+              </View>
+              <Gap height={30}/>
             </View>
-            <TouchableOpacity onPress={()=>setmodalVisible(!modalVisible)}>
-              <MaterialCommunityIcons name="logout" color={colors.Red} size={23} />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.line}></View>
-          <Gap height={30}/>
-          <View>
-            <Text style={{ fontFamily: 'Poppins-Bold', color: colors.Black }}>Welcome To IKAFTI</Text>
-          </View>
-          <Gap height={30}/>
+          }
           <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <View>
               <Text style={styles.headerTitle}>Waiting List</Text>
             </View>
+            { role === 'Admin' && 
+              <TouchableOpacity onPress={()=>setmodalVisible(!modalVisible)}>
+                <MaterialCommunityIcons name="logout" color={colors.Red} size={23} />
+              </TouchableOpacity>
+            }
           </View>
           <View style={styles.line}></View>
           <Gap height={30}/>

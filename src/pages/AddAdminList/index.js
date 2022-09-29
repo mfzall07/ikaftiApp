@@ -49,10 +49,10 @@ const AddAdminList = ({navigation}) => {
                 </View>
                 <View style={styles.line}></View>
                 <Gap height={20}/>
-                {Object.values(admin).map((data) => {
+                {Object.values(admin).map((data, index) => {
                     return (
                         <View>
-                            <CardList key={data.id}
+                            <CardList key={index}
                                 image={data.image}
                                 name={data.name}
                                 desc={data.email}

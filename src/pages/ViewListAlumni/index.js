@@ -58,7 +58,7 @@ const ViewAlumniList = ({navigation}) => {
 
     const loadMore = () => {
         setLimitAlumni(limitAlumni+5)
-        fetchData()
+        getDataAlumni()
     }
 
     return (
@@ -89,10 +89,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.White,
-    },
-    main: {
         padding: 16,
-
     },
     input: borderColor => ( {
         borderWidth: 1,

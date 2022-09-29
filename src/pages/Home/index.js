@@ -13,19 +13,20 @@ const Home = ({navigation}) => {
     const [agenda, setAgenda] = useState ('')
     const [job, setJob] = useState ('')
     const [progress, setProgress] = useState('')
+    const [limit, setLimit] = useState(6)
     
     const fetcData = async () => {
         try {
-            const responseAnnouncement = await Api.indexAnnouncement()
+            const responseAnnouncement = await Api.indexAnnouncement(limit)
             setAnnouncement(responseAnnouncement.data.data)
 
-            const responseInformation = await Api.indexInformation()
+            const responseInformation = await Api.indexInformation(limit)
             setInformation(responseInformation.data.data)
 
-            const responseAgenda = await Api.indexAgenda()
+            const responseAgenda = await Api.indexAgenda(limit)
             setAgenda(responseAgenda.data.data)
 
-            const responseJob = await Api.indexJob()
+            const responseJob = await Api.indexJob(limit)
             setJob(responseJob.data.data)
             console.log(responseJob.data.data)
 
@@ -64,7 +65,7 @@ const Home = ({navigation}) => {
                     <View style={styles.progress}>
                         <View style={{ alignItems: 'center' }}>
                             <View style={{position:'relative', justifyContent: 'center', alignItems: 'center'}}>
-                                <Progress.Circle size={75} progress={progress.percentage1/100} color={colors.Red}/>
+                                <Progress.Circle size={75} progress={progress.percentage1} color={colors.Red}/>
                                 <Text style={{position: 'absolute', color: colors.Red}}>{progress.percentage1}%</Text>
                             </View>
                             <Gap height={5}/>
@@ -72,7 +73,7 @@ const Home = ({navigation}) => {
                         </View>
                         <View style={{ alignItems: 'center' }}>
                             <View style={{position:'relative', justifyContent: 'center', alignItems: 'center'}}>
-                                <Progress.Circle size={75} progress={progress.percentage2/100} color={colors.Red}/>
+                                <Progress.Circle size={75} progress={progress.percentage2} color={colors.Red}/>
                                 <Text style={{position: 'absolute', color: colors.Red}}>{progress.percentage2}%</Text>
                             </View>
                             <Gap height={5}/>
@@ -80,7 +81,7 @@ const Home = ({navigation}) => {
                         </View>
                         <View style={{ alignItems: 'center' }}>
                             <View style={{position:'relative', justifyContent: 'center', alignItems: 'center'}}>
-                                <Progress.Circle size={75} progress={progress.percentage3/100} color={colors.Red}/>
+                                <Progress.Circle size={75} progress={progress.percentage3} color={colors.Red}/>
                                 <Text style={{position: 'absolute', color: colors.Red}}>{progress.percentage3}%</Text>
                             </View>
                             <Gap height={5}/>
@@ -88,7 +89,7 @@ const Home = ({navigation}) => {
                         </View>
                         <View style={{ alignItems: 'center' }}>
                             <View style={{position:'relative', justifyContent: 'center', alignItems: 'center'}}>
-                                <Progress.Circle size={75} progress={progress.percentage4/100} color={colors.Red}/>
+                                <Progress.Circle size={75} progress={progress.percentage4} color={colors.Red}/>
                                 <Text style={{position: 'absolute', color: colors.Red}}>{progress.percentage4}%</Text>
                             </View>
                             <Gap height={5}/>

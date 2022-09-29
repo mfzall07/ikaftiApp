@@ -38,8 +38,8 @@ class Api{
     }
 
     // Announcement
-    static indexAnnouncement() {
-        let path = 'v1/announcement';
+    static indexAnnouncement(limit) {
+        let path = `v1/announcement?limit=${limit}`;
         return request(`${this.urlAPI()}${path}`, {
             method: 'GET',
         })
@@ -57,8 +57,8 @@ class Api{
     }
     
     // Information
-    static indexInformation() {
-        let path = 'v1/information';
+    static indexInformation(limit) {
+        let path = `v1/information?limit=${limit}`;
         return request(`${this.urlAPI()}${path}`, {
             method: 'GET',
         })
@@ -72,8 +72,8 @@ class Api{
     }
     
     // Agenda
-    static indexAgenda() {
-        let path = 'v1/agenda';
+    static indexAgenda(limit) {
+        let path = `v1/agenda?limit=${limit}`;
         return request(`${this.urlAPI()}${path}`, {
             method: 'GET',
         })
@@ -98,6 +98,27 @@ class Api{
         let path = `v1/alumni/${id}`;
         return request(`${this.urlAPI()}${path}`, {
             method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+    }
+    
+    static EditAlumniDetail(id, token, data) {
+        let path = `v1/alumni/${id}`;
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'PATCH',
+            data,
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+    }
+    
+    static DeleteAlumni(id, token) {
+        let path = `v1/alumni/${id}`;
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`,
             },
@@ -146,8 +167,8 @@ class Api{
     }
 
     // Job
-    static indexJob() {
-        let path = 'v1/job';
+    static indexJob(limit) {
+        let path = `v1/job?limit=${limit}`;
         return request(`${this.urlAPI()}${path}`, {
             method: 'GET',
         })

@@ -76,14 +76,37 @@ const RegistrationAlumni = ({navigation}) => {
             program_studi : programStudi,
             image : photoDB
         }
+        const dataRegisters = {
+            name : fullname,
+            company : company,
+            address : address,
+            domicile : domicile,
+            email : email,
+            phone : phoneNumber,
+            birth_place : birthPlace,
+            birth_date : dateBirth,
+            generation: generation,
+            program_studi : programStudi,
+        }
         try {
-            const postDataRegister = await Api.registerAlumni(dataRegister)
-            console.log(postDataRegister)
-            if(postDataRegister.data.message === 'Validation Error'){
-                Toast.error('Please input a valid data')
-            }
-            else {
-                Toast.success('Success Registration')
+            if(photoDB === ''){
+                const postDataRegister = await Api.registerAlumni(dataRegisters)
+                console.log(postDataRegister)
+                if(postDataRegister.data.message === 'Validation Error'){
+                    Toast.error('Please input a valid data')
+                }
+                else {
+                    Toast.success('Success Registration')
+                }
+            }else {
+                const postDataRegister = await Api.registerAlumni(dataRegister)
+                console.log(postDataRegister)
+                if(postDataRegister.data.message === 'Validation Error'){
+                    Toast.error('Please input a valid data')
+                }
+                else {
+                    Toast.success('Success Registration')
+                }
             }
         } catch (error) {
             console.log(error)

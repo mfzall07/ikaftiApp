@@ -6,30 +6,38 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import DocumentPicker from 'react-native-document-picker';
 import { profile } from "../../assets";
 import { Gap } from "../../component/atoms";
-import { colors } from "../../utils"
+import { colors, getData } from "../../utils"
 import moment from 'moment';
 import Icons from 'react-native-vector-icons/FontAwesome5';
+import Api from "../../Api";
+import axios from "axios";
+import { useIsFocused } from "@react-navigation/native";
+import ToastManager, { Toast } from 'toastify-react-native'
 
-const ViewListAlumniEdit = ({navigation}) => {
+const ViewListAlumniEdit = ({navigation, route}) => {
+    const {id} = route.params
 
+    const params = {
+        id : id,
+        token: token,
+    }
+    const isFocused = useIsFocused();
     const studyProgram = ["Teknik Industri", "Teknik Kimia", "Teknik Pertambangan", "Pll"];
+    const [token, setToken] = useState('')
     const [borderColor, setBorderColor] = useState('#A1AEB7') ;
     const [photo, setPhoto] = useState('');
     const [photoDB, setPhotoDB] = useState("");
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [dateOfBirth, setDateOfBirth] = useState('');
-    const [fileResponse, setFileResponse] = useState([]);
-
-    const handleDocumentSelection = useCallback(async () => {
-        try {
-        const response = await DocumentPicker.pick({
-            presentationStyle: 'fullScreen',
-        });
-        setFileResponse(response);
-        } catch (err) {
-        console.warn(err);
-        }
-    }, []);
+    const [fullname, setFullName] = useState('')
+    const [address, setAddress] = useState('')
+    const [programStudi, setProgramStudi] = useState('')
+    const [birthPlace, setBirthPlace] = useState('')
+    const [dateBirth, setDateBirth] = useState('')
+    const [generation, setGeneration] = useState('')
+    const [domicile, setDomicile] = useState('')
+    const [email, setEmail] = useState('')
+    const [phoneNumber, setPhoneNumber] = useState('')
+    const [company, setCompany] = useState('')
 
     const showDatePicker = () => {
         setDatePickerVisibility(true);
@@ -41,7 +49,7 @@ const ViewListAlumniEdit = ({navigation}) => {
 
     const handleConfirm = (date) => {
         moment.locale('en');
-        setDateOfBirth(date);
+        setDateBirth(date);
         hideDatePicker();
     };
 
@@ -60,9 +68,80 @@ const ViewListAlumniEdit = ({navigation}) => {
         setBorderColor(colors.Red)
     }
 
+    const dataAlumni = () => {
+        getData('user').then(res => {
+            setToken(res.token)
+            const getDataProfile = async() => {
+                try {
+                    const getDataAlumni = await Api.AlumniDetail(id, token)
+                    setFullName(getDataAlumni.data.data.name)
+                    setAddress(getDataAlumni.data.data.address)
+                    setProgramStudi(getDataAlumni.data.data.program_studi)
+                    setBirthPlace(getDataAlumni.data.data.birth_place)
+                    setDateBirth(getDataAlumni.data.data.birth_date)
+                    setGeneration(getDataAlumni.data.data.generation)
+                    setDomicile(getDataAlumni.data.data.domicile)
+                    setEmail(getDataAlumni.data.data.email)
+                    setPhoneNumber(getDataAlumni.data.data.phone)
+                    setCompany(getDataAlumni.data.data.company)
+                    setPhoto(getDataAlumni.data.data.image)
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+            getDataProfile()
+        })
+    }
+
+    useEffect(() => {
+        isFocused && dataAlumni()
+    }, [isFocused])
+    
+
+    const postData = async () => {
+        try {
+            const updateData = {
+                name : fullname,
+                company : company,
+                address : address,
+                domicile : domicile,
+                email : email,
+                phone : phoneNumber,
+                birth_place : birthPlace,
+                birth_date : dateBirth,
+                generation: generation,
+                program_studi : programStudi,
+                image : photoDB
+            }
+            const updateDatas = {
+                name : fullname,
+                company : company,
+                address : address,
+                domicile : domicile,
+                email : email,
+                phone : phoneNumber,
+                birth_place : birthPlace,
+                birth_date : dateBirth,
+                generation: generation,
+                program_studi : programStudi,
+            }
+            if(photoDB === ''){
+                const response = await Api.EditAlumniDetail(id, token, updateDatas)
+                console.log(response)
+            } else {
+                const response = await Api.EditAlumniDetail(id, token, updateData)
+                console.log(response)
+            }
+            navigation.navigate('ViewListAlumniDetail', params)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <View style={styles.container}>
             <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+            <ToastManager/>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View>
                     <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }} onPress={ () => navigation.goBack()}>
@@ -75,7 +154,7 @@ const ViewListAlumniEdit = ({navigation}) => {
                     <Gap height={10}/>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <View>
-                            <Text style={styles.headerTitle}>Muh Faizal</Text>
+                            <Text style={styles.headerTitle}>{fullname}</Text>
                         </View>
                     </View>
                     <View style={styles.line}></View>
@@ -89,22 +168,20 @@ const ViewListAlumniEdit = ({navigation}) => {
                     <Gap height={20}/>
                     <View>
                         <Text style={styles.title}>Full Name</Text>
-                        <TextInput style={styles.input(borderColor)} placeholder='Full Name' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                        <TextInput style={styles.input(borderColor)} onFocus={onFocus} onBlur={onBlur} value={fullname} onChangeText={(value) => setFullName(value)}/>
                     </View>
                     <Gap height={20} />
                     <View>
                         <Text style={styles.title}>Address</Text>
-                        <TextInput style={styles.input(borderColor)} placeholder='Address' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                        <TextInput style={styles.input(borderColor)} onFocus={onFocus} onBlur={onBlur} value={address} onChangeText={(value) => setAddress(value)}/>
                     </View>
                     <Gap height={20} />
                     <View>
-                        <Text style={styles.title}>City</Text>
+                        <Text style={styles.title}>Study Program</Text>
                         <SelectDropdown
-                            defaultButtonText={'Choose Program Study'}
+                            defaultButtonText={'Test'}
                             data={studyProgram}
-                            onSelect={(selectedItem, index) => {
-                                console.log(selectedItem, index)
-                            }}
+                            onSelect={(selectedItem) => setProgramStudi(selectedItem)}
                             buttonTextAfterSelection={(selectedItem) => {
                                 return selectedItem
                             }}
@@ -121,14 +198,14 @@ const ViewListAlumniEdit = ({navigation}) => {
                     <Gap height={20} />
                     <View>
                         <Text style={styles.title}>Birth Place</Text>
-                        <TextInput style={styles.input(borderColor)} placeholder='Birth Place' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                        <TextInput style={styles.input(borderColor)} onFocus={onFocus} onBlur={onBlur} value={birthPlace} onChangeText={(value) => setBirthPlace(value)}/>
                     </View>
                     <Gap height={20} />
                     <View>
                         <Text style={styles.title}>Date of Birth</Text>
                         <View>
                             <TouchableOpacity style={styles.dateButton} onPress={showDatePicker}>
-                                <Text style={{ color: colors.TextGray, paddingLeft: 9 }}>{dateOfBirth === '' ? 'DD MM YYYY' : moment(dateOfBirth).format('DD MMM YYYY')}</Text>
+                                <Text style={{ color: colors.TextGray, paddingLeft: 9 }}>{dateBirth === '' ? 'DD MM YYYY' : moment(dateBirth).format('DD MMM YYYY')}</Text>
                             </TouchableOpacity>
                             <DateTimePickerModal
                                 isVisible={isDatePickerVisible}
@@ -141,26 +218,31 @@ const ViewListAlumniEdit = ({navigation}) => {
                     <Gap height={20} />
                     <View>
                         <Text style={styles.title}>Generation</Text>
-                        <TextInput style={styles.input(borderColor)} placeholder='Generation' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                        <TextInput style={styles.input(borderColor)} onFocus={onFocus} onBlur={onBlur} value={generation} onChangeText={(value) => setGeneration(value)}/>
                     </View>
                     <Gap height={20} />
                     <View>
                         <Text style={styles.title}>Domicile</Text>
-                        <TextInput style={styles.input(borderColor)} placeholder='Domicile' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                        <TextInput style={styles.input(borderColor)} onFocus={onFocus} onBlur={onBlur} value={domicile} onChangeText={(value) => setDomicile(value)}/>
+                    </View>
+                    <Gap height={20} />
+                    <View>
+                        <Text style={styles.title}>Email</Text>
+                        <TextInput style={styles.input(borderColor)} onFocus={onFocus} onBlur={onBlur} value={email} onChangeText={(value) => setEmail(value)}/>
                     </View>
                     <Gap height={20} />
                     <View>
                         <Text style={styles.title}>Phone Number</Text>
-                        <TextInput style={styles.input(borderColor)} placeholder='Phone Number' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                        <TextInput style={styles.input(borderColor)} onFocus={onFocus} onBlur={onBlur} value={phoneNumber} onChangeText={(value) => setPhoneNumber(value)}/>
                     </View>
                     <Gap height={20} />
                     <View>
                         <Text style={styles.title}>Company</Text>
-                        <TextInput style={styles.input(borderColor)} placeholder='Company' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                        <TextInput style={styles.input(borderColor)} onFocus={onFocus} onBlur={onBlur} value={company} onChangeText={(value) => setCompany(value)}/>
                     </View>
                     <Gap height={20} />
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                        <TouchableOpacity style={styles.Button} >
+                        <TouchableOpacity style={styles.Button} onPress={postData}>
                             <Text style={styles.titleButton}>Edit</Text>
                         </TouchableOpacity>
                     </View> 

@@ -7,11 +7,19 @@ import { colors } from '../../utils'
 import Icons from 'react-native-vector-icons/FontAwesome5';
 import Api from '../../Api'
 import axios from 'axios'
+import { useIsFocused } from '@react-navigation/native'
 
 const ViewListAlumniDetail = ({navigation, route}) => {
-
+    const isFocused = useIsFocused();
     const { id, token } = route.params
     const [ dataAlumni, setDataAlumni ] = useState('')
+
+    const params = {
+        id : id,
+        token : token
+    }
+
+    console.log(params)
 
     const fetcData = async () => {
         try {
@@ -22,9 +30,18 @@ const ViewListAlumniDetail = ({navigation, route}) => {
         }
     }
 
+    const delData = async () => {
+        try {
+            const response = await Api.DeleteAlumni(id, token)
+            navigation.replace('ViewListAlumni')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
-        fetcData()
-    }, [])
+        isFocused && fetcData()
+    }, [isFocused])
 
     return (
         <View style={styles.container}>
@@ -122,11 +139,11 @@ const ViewListAlumniDetail = ({navigation, route}) => {
                         </View>
                     </View>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                        <TouchableOpacity style={styles.Button} onPress={ () => navigation.navigate('ViewListAlumniEdit') }>
+                        <TouchableOpacity style={styles.Button} onPress={ () => navigation.navigate('ViewListAlumniEdit', params) }>
                             <Text style={styles.titleButton}>Edit</Text>
                         </TouchableOpacity>
                         <Gap width={10}/>
-                        <TouchableOpacity style={styles.Button} >
+                        <TouchableOpacity style={styles.Button} onPress={delData}>
                             <Text style={styles.titleButton}>Delete</Text>
                         </TouchableOpacity>
                     </View> 

@@ -35,7 +35,7 @@ const Router = () => {
                 headerShown: false, 
                 animation: 'slide_from_right',
             }}
-            initialRouteName='Navigation'
+            initialRouteName='Splash'
         >
             <Stack.Screen name="Splash" component={Splash} />
             <Stack.Screen name="Navigation" component={Navigation} />

@@ -37,18 +37,19 @@ const NavigationAdmin = (route) => {
                     tabBarStyle:{paddingBottom: 5, paddingTop: 5, backgroundColor: colors.Red},
                 }}
                 initialRouteName="WaitingList"
-            >
-                <Tab.Screen
-                    name="Admin"
-                    component={AddAdmin}
-                    options={{
-                        tabBarLabel: 'Admin',
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="account-multiple" color={colors.White} size={23} />
-                        ),
-                    }}
-                    initialParams={name}
-                />
+            >  
+                { role === 'Super Admin' &&
+                    <Tab.Screen
+                        name="Admin"
+                        component={AddAdmin}
+                        options={{
+                            tabBarLabel: 'Admin',
+                            tabBarIcon: ({ color, size }) => (
+                                <MaterialCommunityIcons name="account-multiple" color={colors.White} size={23} />
+                            ),
+                        }}
+                    />
+                }
                 <Tab.Screen
                     name="Announcement"
                     component={AddAnnouncement}
@@ -59,16 +60,29 @@ const NavigationAdmin = (route) => {
                         ),
                     }}
                 />
-                <Tab.Screen
-                    name="WaitingList"
-                    component={WaitingList}
-                    options={{
-                        tabBarLabel: 'Home',
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="home" color={colors.Red} size={23} style={styles.iconLogin}/>
-                        ),
-                    }}
-                />
+                { role === 'Super Admin' ?  
+                    <Tab.Screen
+                        name="WaitingList"
+                        component={WaitingList}
+                        options={{
+                            tabBarLabel: 'Home',
+                            tabBarIcon: ({ color, size }) => (
+                                <MaterialCommunityIcons name="home" color={colors.Red} size={23} style={styles.iconLogin}/>
+                            ),
+                        }}
+                    />
+                :
+                    <Tab.Screen
+                        name="WaitingList"
+                        component={WaitingList}
+                        options={{
+                            tabBarLabel: 'Waiting List',
+                            tabBarIcon: ({ color, size }) => (
+                                <MaterialCommunityIcons name="format-list-bulleted-triangle" color={colors.White} size={23} />
+                            ),
+                        }}
+                    />
+                }
                 <Tab.Screen
                     name="AlumniList"
                     component={ViewAlumniList}
