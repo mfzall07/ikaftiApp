@@ -11,10 +11,17 @@ import moment from 'moment'
 const AddJobList = ({navigation}) => {
     const isFocused = useIsFocused()
     const [job, setJob] = useState('')
+    const [token, setToken] = useState('')
+
+    const getUser = () => {
+        getData('user').then(res => {
+            setToken(res.token)
+        })
+    }
 
     const fetcData = async () => {
         try {
-            const responseJob = await Api.indexJob()
+            const responseJob = await Api.LindexJob()
             setJob(responseJob.data.data)
             console.log(responseJob.data.data)
         } catch (error) {
@@ -22,8 +29,18 @@ const AddJobList = ({navigation}) => {
         }
     }
 
+    const delJob = async (id) => {
+        try {
+            const response = await Api.DeleteJob(id, token)
+            console.log(response)
+            navigation.goBack()
+        } catch (error) {
+            
+        }
+    }
+
     useEffect(() => {
-        isFocused && fetcData()
+        isFocused && fetcData() && getUser()
     }, [isFocused])
     
 
@@ -53,6 +70,8 @@ const AddJobList = ({navigation}) => {
                                 image={data.image}
                                 name={data.company_name}
                                 desc={data.title}
+                                type={"addJob"}
+                                onPressDel={ () => delJob(data.id) }
                             />
                             <Gap height={10}/>
                         </View>

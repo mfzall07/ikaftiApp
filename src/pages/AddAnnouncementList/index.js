@@ -11,10 +11,18 @@ import moment from 'moment'
 const AddAnnouncementList = ({navigation}) => {
     const isFocused = useIsFocused()
     const [announcement, setAnnouncement] = useState('')
+    const [token, setToken] = useState()
+    
+
+    const getUser = () => {
+        getData('user').then(res => {
+            setToken(res.token)
+        })
+    }
 
     const fetcData = async () => {
         try {
-            const responseAnnouncement = await Api.indexAnnouncement()
+            const responseAnnouncement = await Api.LindexAnnouncement()
             setAnnouncement(responseAnnouncement.data.data)
             console.log(responseAnnouncement.data.data)
         } catch (error) {
@@ -22,8 +30,18 @@ const AddAnnouncementList = ({navigation}) => {
         }
     }
 
+    const delAnnouncement = async (id) => {
+        try {
+            const response = await Api.DeleteAnnouncement(id, token)
+            console.log(response)
+            navigation.goBack()
+        } catch (error) {
+            
+        }
+    }
+
     useEffect(() => {
-        isFocused && fetcData()
+        isFocused && fetcData() && getUser()
     }, [isFocused])
     
 
@@ -53,6 +71,8 @@ const AddAnnouncementList = ({navigation}) => {
                                 image={data.image}
                                 name={data.title}
                                 desc={moment(data.created_at).format('DD MMM YYYY')}
+                                type={'addAnnouncement'}
+                                onPressDel={ () => delAnnouncement(data.id)}
                             />
                             <Gap height={10}/>
                         </View>

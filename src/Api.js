@@ -36,10 +36,27 @@ class Api{
             },
         })
     }
+    
+    static DeleteAdmin(id, token) {
+        let path = `v1/admin/${id}`;
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+    }
 
     // Announcement
     static indexAnnouncement(limit) {
         let path = `v1/announcement?limit=${limit}`;
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'GET',
+        })
+    }
+    
+    static LindexAnnouncement() {
+        let path = `v1/announcement`;
         return request(`${this.urlAPI()}${path}`, {
             method: 'GET',
         })
@@ -50,6 +67,16 @@ class Api{
         return request(`${this.urlAPI()}${path}`, {
             method: 'POST',
             data,
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+    }
+
+    static DeleteAnnouncement(id, token) {
+        let path = `v1/announcement/${id}`;
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`,
             },
@@ -173,6 +200,13 @@ class Api{
             method: 'GET',
         })
     }
+    
+    static LindexJob() {
+        let path = `v1/job`;
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'GET',
+        })
+    }
 
     static showJob(id) {
         let path = `v1/job/${id}`;
@@ -186,6 +220,16 @@ class Api{
         return request(`${this.urlAPI()}${path}`, {
             method: 'POST',
             data,
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+    }
+
+    static DeleteJob(id, token) {
+        let path = `v1/job/${id}`;
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`,
             },

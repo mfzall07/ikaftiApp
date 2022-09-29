@@ -10,9 +10,11 @@ import Icons from 'react-native-vector-icons/FontAwesome5'
 const AddAdminList = ({navigation}) => {
     const isFocused = useIsFocused()
     const [admin, setAdmin] = useState('')
+    const [token, setToken] = useState('')
 
     const getListAdmin = () => {
         getData('user').then( res => {
+            setToken(res.token)
             const fetcData = async () => {
                 try {
                     const response = await Api.indexAdmin(res.token)
@@ -23,6 +25,15 @@ const AddAdminList = ({navigation}) => {
             }
             fetcData()
         })
+    }
+
+    const delAdmin = async (id) => {
+        try {
+            const response = await Api.DeleteAdmin(id, token)
+            navigation.goBack()
+        } catch (error) {
+            
+        }
     }
 
     useEffect(() => {
@@ -52,10 +63,13 @@ const AddAdminList = ({navigation}) => {
                 {Object.values(admin).map((data, index) => {
                     return (
                         <View>
-                            <CardList key={index}
+                            <CardList key={data.id}
+                                id={data.id}
                                 image={data.image}
                                 name={data.name}
                                 desc={data.email}
+                                type={'addAdmin'}
+                                onPressDel={ () => delAdmin(data.id)}
                             />
                             <Gap height={10}/>
                         </View>
