@@ -1,9 +1,16 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
 import { colors } from '../../../utils'
 import Gap from '../Gap'
+import IonIcon from 'react-native-vector-icons/Ionicons';
 
 const CardList = ({onPress, image, name, desc, type, onPressDel, id}) => {
+
+    const [modalVisible, setmodalVisible] = useState(false);
+    
+    const gotoRewards = () => {
+        setmodalVisible(!modalVisible)
+    }
 
     if (type === 'addAdmin' || type === 'addAnnouncement' || type === 'addJob'  ) {
         return (
@@ -17,9 +24,38 @@ const CardList = ({onPress, image, name, desc, type, onPressDel, id}) => {
                     </View>
                 </View>
                 
-                <TouchableOpacity style={{ backgroundColor: colors.Red, paddingVertical: 5, paddingHorizontal: 8, borderRadius: 99 }} onPress={onPressDel}>
-                    <Text style={{ color: colors.White, fontFamily: 'Poppins-Bold' }}>Del</Text>
+                <TouchableOpacity style={{ backgroundColor: colors.Red, padding: 5, borderRadius: 99 }} onPress={()=>setmodalVisible(!modalVisible)}>
+                    <IonIcon name="md-trash-bin" color={colors.White} size={15} />
                 </TouchableOpacity>
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                        setmodalVisible(!modalVisible);
+                    }}
+                >
+                    <View style={styles.mainModal}>
+                        <View style={styles.subModal}>
+                            <View style={{ alignItems: 'center' }}>
+                                <View style={{ width: 48, height: 4, backgroundColor: '#E6E9ED' }}/>
+                            </View>
+                            <View>
+                                <Text style={{ color: colors.Black, fontFamily: 'Poppins-Bold', fontSize: 18 }}>Delete this event?</Text>
+                                <Text style={{ color: colors.Gray, fontFamily:'Poppins' }}>Are u sure want to delete this event?</Text>
+                            </View>
+                            <View style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <TouchableOpacity style={{ width: '45%', paddingVertical: 6, backgroundColor: '#F4F5F6', borderRadius: 8, alignItems: 'center' }} onPress = {gotoRewards}>
+                                    <Text style={{ color: colors.Black, fontSize: 18, fontFamily:'Poppins'}}>Cancel</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={{ width: '45%', paddingVertical: 6, backgroundColor: colors.Red, borderRadius: 8, alignItems: 'center' }} onPress={onPressDel}>
+                                    <Text style={{ color:'#fff', fontSize: 18, fontFamily:'Poppins' }}>Delete</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
 
             </View>
         )
@@ -89,7 +125,21 @@ const styles = StyleSheet.create({
         color: colors.Gray,
         maxWidth: 250,
         fontSize: 12
-    }
+    },
+    mainModal: {
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        justifyContent: "flex-end",
+        flex: 1,
+    },
+    subModal: {
+        backgroundColor: '#fff',
+        height: 260,
+        paddingHorizontal: 16,
+        paddingVertical: 16,
+        borderTopRightRadius: 24,
+        borderTopLeftRadius: 24,
+        justifyContent: 'space-around'
+    },
 })
 
 export default CardList
