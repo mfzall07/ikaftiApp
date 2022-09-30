@@ -59,7 +59,11 @@ const AlumniList = ({navigation}) => {
     return (
         <SafeAreaView style={styles.container} >
             <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Gray} translucent = {false}/>
-            <Text style={{ color: colors.Black, fontFamily: 'Poppins-Bold', fontSize: 18, textTransform: 'uppercase', textAlign: 'center' }}>Alumni List</Text>
+            <View style={{ alignSelf: 'flex-start' }}>
+                <Text style={{ fontFamily: 'Poppins-Bold', color: colors.Black, fontSize: 24 }}>Alumni List</Text>
+                <Text style={{ fontFamily: 'Poppins', color: colors.Gray, fontSize: 12, bottom: 5 }}>List for alumni IKAFTi</Text>
+                <Gap height={10}/>
+            </View>
             <Gap height={20}/>
             <View style={{ position: 'relative' }}>
                 <TextInput style={styles.input(borderColor)} placeholder='Search' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>

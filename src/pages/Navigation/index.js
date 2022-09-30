@@ -47,16 +47,6 @@ const Navigation = () => {
                     }}
                 />
                 <Tab.Screen
-                    name="Login"
-                    component={Login}
-                    options={{
-                        tabBarLabel: 'Login',
-                        tabBarIcon: ({ focused }) => (
-                            <MaterialCommunityIcons name="login" size={23} style={styles.iconLogin(focused)}/>
-                        ),
-                    }}
-                />
-                <Tab.Screen
                     name="AlumniList"
                     component={AlumniList}
                     options={{
@@ -76,6 +66,16 @@ const Navigation = () => {
                         ),
                     }}
                 />
+                <Tab.Screen
+                    name="Login"
+                    component={Login}
+                    options={{
+                        tabBarLabel: 'Login',
+                        tabBarIcon: ({ focused }) => (
+                            <MaterialCommunityIcons name="login" style={styles.icon(focused)} size={23} />
+                        ),
+                    }}
+                />
             </Tab.Navigator>
         </View>
     );
@@ -85,18 +85,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.White,
     },
-    iconLogin: focused => ({
-        height: 50,
-        width: 50,
-        borderRadius: 25,
-        backgroundColor: focused ? colors.White : colors.Gray,
-        textAlign: 'center',
-        textAlignVertical:"center",
-        marginBottom: 25,
-        borderWidth: 2,
-        borderColor: focused ? colors.Red : colors.White,
-        color: focused ? colors.Red : colors.White,
-    }),
     icon: focused => ({
         color: focused ? colors.Red : colors.White,
     }),

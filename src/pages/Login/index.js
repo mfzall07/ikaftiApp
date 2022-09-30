@@ -47,7 +47,7 @@ const Login = ({navigation}) => {
             <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Gray} translucent = {false}/>
             <ToastManager/>
             <Gap height={50}/>
-            <Image source={IkaftiBlack} style={{ width: 130, height: 50, resizeMode: 'cover', alignSelf: 'center' }}/>
+            <Image source={IkaftiBlack} style={{ width: 160, height: 60, resizeMode: 'cover', alignSelf: 'center' }}/>
             <Gap height={50}/>
             <View style={{ alignSelf: 'flex-start' }}>
                 <Text style={{ fontFamily: 'Poppins-Bold', color: colors.Black, fontSize: 24 }}>Login</Text>

@@ -10,7 +10,7 @@ const windowHeight = Dimensions.get('window').height;
 const CardAnnouncement = ({title, description, onPress, image}) => {
 
     return(
-        <TouchableOpacity onPress={onPress}>
+        <View onPress={onPress} style={styles.mainCard}>
             <View style={styles.card}>
                 <View style={styles.imageCard}>
                     <Image source={{uri:image}} style={styles.image}/>
@@ -21,15 +21,21 @@ const CardAnnouncement = ({title, description, onPress, image}) => {
                     <Text style={styles.description} numberOfLines={2}>{description}</Text>
                 </View>
             </View>
-        </TouchableOpacity>
+        </View>
     )
 };
 
 const styles = StyleSheet.create({
+    mainCard: {
+        width: windowWidth/1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     card: {
         backgroundColor: colors.White,
-        width: windowWidth/1,
-        height: 180,
+        width: windowWidth/1.5,
+        height: 300,
         borderWidth: 1,
         borderColor: colors.Gray,
         overflow: 'hidden',
@@ -41,6 +47,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
+        borderRadius: 10
     },
     imageCard: {
         height: '100%',
@@ -56,13 +63,14 @@ const styles = StyleSheet.create({
     contentCard: {
         padding: 10,
         position: 'absolute',
-        bottom: 0
+        bottom: 0,
+        width: '100%',
     },
     title: {
-        color: colors.Black,
+        color: colors.White,
         fontSize: 12,
-        maxWidth: 200,
-        backgroundColor: colors.White,
+        width: '100%',
+        backgroundColor: colors.Gray,
         padding: 5,
         borderRadius: 5,
         opacity: 0.8,
@@ -70,13 +78,13 @@ const styles = StyleSheet.create({
     },
     description: {
         fontFamily: 'Poppins',
-        color: colors.Black,
+        color: colors.White,
         fontSize: 12,
-        backgroundColor: colors.White,
+        backgroundColor: colors.Gray,
         padding: 5,
         borderRadius: 5,
         opacity: 0.8,
-        maxWidth: 200
+        width: '100%',
     }
 
 })

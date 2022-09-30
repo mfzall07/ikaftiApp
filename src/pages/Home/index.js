@@ -46,6 +46,7 @@ const Home = ({navigation}) => {
         <View style={styles.container}>
             <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Gray} translucent = {false}/>
             <ScrollView showsVerticalScrollIndicator={false}>
+                <Gap height={20}/>
                 <View style={styles.sectionAnnouncement}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
                         { Object.values(announcement).map((data) => {
@@ -60,7 +61,7 @@ const Home = ({navigation}) => {
                     </ScrollView>
                 </View>
                 <View style={styles.main}>
-                    <Text style={styles.progressText}>Percentage Alumni</Text>
+                    {/* <Text style={styles.progressText}>Percentage Alumni</Text> */}
                     <Gap height={10}/>
                     <View style={styles.progress}>
                         <View style={{ alignItems: 'center' }}>
@@ -96,7 +97,7 @@ const Home = ({navigation}) => {
                             <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 12, color: colors.Black }}>2017-2018</Text>
                         </View>
                     </View>
-                    <Gap height={20}/>
+                    <Gap height={30}/>
                     <View style={styles.sectionInformation}>
                         <View style={styles.informationHeader}>
                             <Text style={styles.informationText}>Informations</Text>

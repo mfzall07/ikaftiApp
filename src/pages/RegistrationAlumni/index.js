@@ -120,6 +120,11 @@ const RegistrationAlumni = ({navigation}) => {
             <ToastManager/>
             <ScrollView showsVerticalScrollIndicator={false} ref={(c) => {scroll = c}}>
                 <View>
+                    <View style={{ alignSelf: 'flex-start' }}>
+                        <Text style={{ fontFamily: 'Poppins-Bold', color: colors.Black, fontSize: 24 }}>Register Alumni</Text>
+                        <Text style={{ fontFamily: 'Poppins', color: colors.Gray, fontSize: 12, bottom: 5 }}>Input field for continue</Text>
+                    </View>
+                    <Gap height={50}/>
                     <View style={styles.imageMain}>
                         <TouchableOpacity onPress={getImageFromGalery}>
                             <Image source={photo === '' ? profile : { uri: photo }} style={styles.imageStyle} />
