@@ -6,6 +6,7 @@ import axios from 'axios'
 import Api from '../../Api'
 import { useIsFocused } from '@react-navigation/native'
 import Icons from 'react-native-vector-icons/FontAwesome5'
+import ToastManager, { Toast } from 'toastify-react-native'
 
 const AddAdminList = ({navigation}) => {
     const isFocused = useIsFocused()
@@ -30,9 +31,12 @@ const AddAdminList = ({navigation}) => {
     const delAdmin = async (id) => {
         try {
             const response = await Api.DeleteAdmin(id, token)
-            navigation.goBack()
-        } catch (error) {
-            
+            navigation.replace('AddAdminList')
+            Toast.success('Success Deleted')
+            // setInterval(() => {
+            // }, 3000);
+        }catch{
+
         }
     }
 
@@ -43,7 +47,8 @@ const AddAdminList = ({navigation}) => {
 
     return (
         <View style={styles.container}>
-            <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+            <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Gray} translucent = {false}/>
+            <ToastManager/>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }} onPress={ () => navigation.goBack()}>
                     <Icons name="arrow-circle-left" size={20} color={ colors.Black }/>

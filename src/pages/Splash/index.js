@@ -30,7 +30,7 @@ const Splash = ({navigation}) => {
 
     return (
         <ImageBackground source={BgSplash} resizeMode='cover' style={styles.container}>
-            <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+            <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Gray} translucent = {false}/>
             <View style={{flex: 1 ,justifyContent: 'center', alignItems: 'center'}}>
                 <Animated.Image source={IkaftiBlack} style={{ width:'55%', height:'15%', resizeMode: 'stretch', opacity: fadeAnim }}/>
             </View>

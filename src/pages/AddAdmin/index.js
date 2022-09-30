@@ -50,7 +50,27 @@ const AddAdmin = ({navigation}) => {
               password : password,
               image : photoDB
           }
+          const dataAdmins = {
+              name : fullname,
+              phone : phone,
+              email : email,
+              username : username,
+              password : password,
+          }
           try {
+            if(photoDB === '') {
+              // console.log(dataAdmin)
+              const postDataAdmin = await Api.AddAdmin(token, dataAdmins)
+              console.log(postDataAdmin)
+              if (postDataAdmin.data.message === 'Validation Error') {
+                Toast.error('Change username/email.')
+              }
+              else {
+                Toast.success('Admin has been added')
+                navigation.navigate('AddAdminList')
+              }
+              console.log(postDataAdmin.data.message)
+            }else {
               // console.log(dataAdmin)
               const postDataAdmin = await Api.AddAdmin(token, dataAdmin)
               console.log(postDataAdmin)
@@ -59,8 +79,10 @@ const AddAdmin = ({navigation}) => {
               }
               else {
                 Toast.success('Admin has been added')
+                navigation.navigate('AddAdminList')
               }
               console.log(postDataAdmin.data.message)
+            }
           } catch (error) {
               console.log(error)
           }
@@ -69,9 +91,14 @@ const AddAdmin = ({navigation}) => {
     })
   }
 
+  useEffect(() => {
+    sendDataAdmin()
+  }, [])
+  
+
   return (
     <View style={styles.container}>
-      <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+      <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Gray} translucent = {false}/>
       <ToastManager/>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.main}>

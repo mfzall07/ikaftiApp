@@ -7,6 +7,7 @@ import Api from '../../Api'
 import { useIsFocused } from '@react-navigation/native'
 import Icons from 'react-native-vector-icons/FontAwesome5'
 import moment from 'moment'
+import ToastManager, { Toast } from 'toastify-react-native'
 
 const AddAnnouncementList = ({navigation}) => {
     const isFocused = useIsFocused()
@@ -33,8 +34,8 @@ const AddAnnouncementList = ({navigation}) => {
     const delAnnouncement = async (id) => {
         try {
             const response = await Api.DeleteAnnouncement(id, token)
-            console.log(response)
-            navigation.goBack()
+            navigation.replace('AddAnnouncementList')
+            Toast.success('Success Deleted Announcement')
         } catch (error) {
             
         }
@@ -47,7 +48,8 @@ const AddAnnouncementList = ({navigation}) => {
 
     return (
         <View style={styles.container}>
-            <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+            <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Gray} translucent = {false}/>
+            <ToastManager/>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }} onPress={ () => navigation.goBack()}>
                     <Icons name="arrow-circle-left" size={20} color={ colors.Black }/>

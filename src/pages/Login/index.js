@@ -44,7 +44,7 @@ const Login = ({navigation}) => {
 
     return (
         <View style={styles.container}>
-            <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+            <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Gray} translucent = {false}/>
             <ToastManager/>
             <Gap height={50}/>
             <Image source={IkaftiBlack} style={{ width: 130, height: 50, resizeMode: 'cover', alignSelf: 'center' }}/>

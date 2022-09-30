@@ -29,12 +29,12 @@ const NavigationAdmin = (route) => {
 
     return (
         <View style={styles.container}>
-            <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+            <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Gray} translucent = {false}/>
             <Tab.Navigator
                 screenOptions={{
                     headerShown: false,
-                    tabBarActiveTintColor: colors.White,
-                    tabBarStyle:{paddingBottom: 5, paddingTop: 5, backgroundColor: colors.Red},
+                    tabBarLabelStyle: {color: colors.White},
+                    tabBarStyle:{paddingBottom: 5, paddingTop: 5, backgroundColor: colors.Gray},
                 }}
                 initialRouteName="WaitingList"
             >  
@@ -44,8 +44,8 @@ const NavigationAdmin = (route) => {
                         component={AddAdmin}
                         options={{
                             tabBarLabel: 'Admin',
-                            tabBarIcon: ({ color, size }) => (
-                                <MaterialCommunityIcons name="account-multiple" color={colors.White} size={23} />
+                            tabBarIcon: ({focused}) => (
+                                <MaterialCommunityIcons name="account-multiple" style={styles.icon(focused)} size={23} />
                             ),
                         }}
                     />
@@ -55,8 +55,8 @@ const NavigationAdmin = (route) => {
                     component={AddAnnouncement}
                     options={{
                         tabBarLabel: 'Announcement',
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="bullhorn" color={colors.White} size={23} />
+                        tabBarIcon: ({focused}) => (
+                            <MaterialCommunityIcons name="bullhorn" style={styles.icon(focused)} size={23} />
                         ),
                     }}
                 />
@@ -66,8 +66,8 @@ const NavigationAdmin = (route) => {
                         component={WaitingList}
                         options={{
                             tabBarLabel: 'Home',
-                            tabBarIcon: ({ color, size }) => (
-                                <MaterialCommunityIcons name="home" color={colors.Red} size={23} style={styles.iconLogin}/>
+                            tabBarIcon: ({focused}) => (
+                                <MaterialCommunityIcons name="home" size={23} style={styles.iconLogin(focused)}/>
                             ),
                         }}
                     />
@@ -77,8 +77,8 @@ const NavigationAdmin = (route) => {
                         component={WaitingList}
                         options={{
                             tabBarLabel: 'Waiting List',
-                            tabBarIcon: ({ color, size }) => (
-                                <MaterialCommunityIcons name="format-list-bulleted-triangle" color={colors.White} size={23} />
+                            tabBarIcon: ({focused}) => (
+                                <MaterialCommunityIcons name="format-list-bulleted-triangle" style={styles.icon(focused)} size={23} />
                             ),
                         }}
                     />
@@ -88,8 +88,8 @@ const NavigationAdmin = (route) => {
                     component={ViewAlumniList}
                     options={{
                         tabBarLabel: 'Alumni List',
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="badge-account" color={colors.White} size={23} />
+                        tabBarIcon: ({focused}) => (
+                            <MaterialCommunityIcons name="badge-account" style={styles.icon(focused)} size={23} />
                         ),
                     }}
                 />
@@ -98,8 +98,8 @@ const NavigationAdmin = (route) => {
                     component={AddJob}
                     options={{
                         tabBarLabel: 'Job',
-                        tabBarIcon: ({ color, size }) => (
-                            <IonIcon name="briefcase" color={colors.White} size={23} />
+                        tabBarIcon: ({focused}) => (
+                            <IonIcon name="briefcase" style={styles.icon(focused)} size={23} />
                         ),
                     }}
                 />
@@ -112,17 +112,21 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.White,
     },
-    iconLogin: {
+    iconLogin: focused => ({
         height: 50,
         width: 50,
         borderRadius: 25,
-        backgroundColor: colors.White,
+        backgroundColor: focused ? colors.White : colors.Gray,
         textAlign: 'center',
         textAlignVertical:"center",
         marginBottom: 25,
         borderWidth: 2,
-        borderColor: colors.Red,
-    }
+        borderColor: focused ? colors.Red : colors.White,
+        color: focused ? colors.Red : colors.White,
+    }),
+    icon: focused => ({
+        color: focused ? colors.Red : colors.White,
+    }),
 
 })
 

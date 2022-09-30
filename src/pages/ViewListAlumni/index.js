@@ -63,7 +63,7 @@ const ViewAlumniList = ({navigation}) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+            <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Gray} translucent = {false}/>
             <View style={styles.main}>
                 <Gap height={10}/>
                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>

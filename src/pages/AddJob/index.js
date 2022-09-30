@@ -51,15 +51,36 @@ const AddJob = ({navigation}) => {
                     job_type : jobTypes,
                     placement : placement,
                     salary : salary,
+              }
+              const dataJobs = {
+                    company_name : company,
+                    description : description,
+                    title : jobPosition,
+                    phone : phone,
+                    job_type : jobTypes,
+                    placement : placement,
+                    salary : salary,
                     image : photoDB
               }
               try {
-                    const postDataJob = await Api.AddJob(token, dataJob)
-                    console.log(postDataJob)
-                    if ( postDataJob.data.message === 'Validation Error') {
-                        Toast.error('Failed to add job')
+                    if(photoDB === '') {
+                        const postDataJob = await Api.AddJob(token, dataJob)
+                        console.log(postDataJob)
+                        if ( postDataJob.data.message === 'Validation Error') {
+                            Toast.error('Failed to add job')
+                        } else {
+                            Toast.success('Job has been added')
+                            navigation.navigate('AddJobList')
+                        }
                     } else {
-                        Toast.success('Job has been added')
+                        const postDataJob = await Api.AddJob(token, dataJobs)
+                        console.log(postDataJob)
+                        if ( postDataJob.data.message === 'Validation Error') {
+                            Toast.error('Failed to add job')
+                        } else {
+                            Toast.success('Job has been added')
+                            navigation.navigate('AddJobList')
+                        }
                     }
               } catch (error) {
                   console.log(error)
@@ -71,7 +92,7 @@ const AddJob = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+      <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Gray} translucent = {false}/>
       <ToastManager />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.main}>

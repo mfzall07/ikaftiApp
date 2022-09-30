@@ -17,12 +17,12 @@ const Navigation = () => {
 
     return (
         <View style={styles.container}>
-            <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+            <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Gray} translucent = {false}/>
             <Tab.Navigator
                 screenOptions={{
                     headerShown: false,
-                    tabBarActiveTintColor: colors.White,
-                    tabBarStyle:{paddingBottom: 5, paddingTop: 5, backgroundColor: colors.Red}
+                    tabBarLabelStyle:{ color: colors.White },
+                    tabBarStyle:{paddingBottom: 5, paddingTop: 5, backgroundColor: colors.Gray}
                 }}
 
             >
@@ -31,8 +31,8 @@ const Navigation = () => {
                     component={Home}
                     options={{
                         tabBarLabel: 'Home',
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="home" color={colors.White} size={23} />
+                        tabBarIcon: ({ focused }) => (
+                            <MaterialCommunityIcons name="home" style={styles.icon(focused)} size={23} />
                         ),
                     }}
                 />
@@ -41,8 +41,8 @@ const Navigation = () => {
                     component={RegistrationAlumni}
                     options={{
                         tabBarLabel: 'Registration',
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="file-document-edit" color={colors.White} size={23} />
+                        tabBarIcon: ({ focused }) => (
+                            <MaterialCommunityIcons name="file-document-edit" style={styles.icon(focused)} size={23} />
                         ),
                     }}
                 />
@@ -51,8 +51,8 @@ const Navigation = () => {
                     component={Login}
                     options={{
                         tabBarLabel: 'Login',
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="login" color={colors.Red} size={23} style={styles.iconLogin}/>
+                        tabBarIcon: ({ focused }) => (
+                            <MaterialCommunityIcons name="login" size={23} style={styles.iconLogin(focused)}/>
                         ),
                     }}
                 />
@@ -61,8 +61,8 @@ const Navigation = () => {
                     component={AlumniList}
                     options={{
                         tabBarLabel: 'Alumni List',
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="account-details" color={colors.White} size={23} />
+                        tabBarIcon: ({ focused }) => (
+                            <MaterialCommunityIcons name="account-details" style={styles.icon(focused)} size={23} />
                         ),
                     }}
                 />
@@ -71,8 +71,8 @@ const Navigation = () => {
                     component={About}
                     options={{
                         tabBarLabel: 'About',
-                        tabBarIcon: ({ color, size }) => (
-                            <IonIcon name="ios-people-sharp" color={colors.White} size={23} />
+                        tabBarIcon: ({ focused }) => (
+                            <IonIcon name="ios-people-sharp" style={styles.icon(focused)} size={23} />
                         ),
                     }}
                 />
@@ -85,17 +85,21 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.White,
     },
-    iconLogin: {
+    iconLogin: focused => ({
         height: 50,
         width: 50,
         borderRadius: 25,
-        backgroundColor: colors.White,
+        backgroundColor: focused ? colors.White : colors.Gray,
         textAlign: 'center',
         textAlignVertical:"center",
         marginBottom: 25,
         borderWidth: 2,
-        borderColor: colors.Red,
-    }
+        borderColor: focused ? colors.Red : colors.White,
+        color: focused ? colors.Red : colors.White,
+    }),
+    icon: focused => ({
+        color: focused ? colors.Red : colors.White,
+    }),
 
 })
 

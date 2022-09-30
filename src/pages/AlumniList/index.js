@@ -58,7 +58,7 @@ const AlumniList = ({navigation}) => {
 
     return (
         <SafeAreaView style={styles.container} >
-            <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+            <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Gray} translucent = {false}/>
             <Text style={{ color: colors.Black, fontFamily: 'Poppins-Bold', fontSize: 18, textTransform: 'uppercase', textAlign: 'center' }}>Alumni List</Text>
             <Gap height={20}/>
             <View style={{ position: 'relative' }}>

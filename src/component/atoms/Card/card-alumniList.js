@@ -18,7 +18,7 @@ const CardAlumniList = ({fullname, domicile, email, generation, image}) => {
             </View>
             <View style={styles.contentCard}>
                 <View>
-                    <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'row', marginLeft: 2 }}>
                         <Icon name="user" size={18} />
                         <Gap width={10}/>
                         <Text style={styles.text} numberOfLines={2}>
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins',
         textAlign: 'justify',
         fontSize: 14,
-        maxWidth: 175,
+        maxWidth: 150,
     },
     date: {
         color: colors.Gray,

@@ -44,7 +44,7 @@ const Home = ({navigation}) => {
 
     return (
         <View style={styles.container}>
-            <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+            <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Gray} translucent = {false}/>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.sectionAnnouncement}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>

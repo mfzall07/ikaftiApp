@@ -46,7 +46,7 @@ const WaitingList = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+      <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Gray} translucent = {false}/>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.main}>
           <Gap height={10}/>

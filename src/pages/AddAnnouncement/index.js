@@ -40,16 +40,33 @@ const AddAnnouncement = ({navigation}) => {
           const dataAnnouncement = {
               title : title,
               description: description,
+          }
+          const dataAnnouncements = {
+              title : title,
+              description: description,
               image : photoDB
           }
           try {
+            if(photoDB === '') {
               const postDataAnnouncement = await Api.AddAnnouncement(token, dataAnnouncement)
               console.log(postDataAnnouncement.data.message)
               if(postDataAnnouncement.data.message === 'Validation Error'){
                 Toast.error('Failed add announcement')
               } else {
                 Toast.success('Success add announcement')
+                navigation.navigate('AddAnnouncementList')
               }
+            }else {
+              const postDataAnnouncement = await Api.AddAnnouncement(token, dataAnnouncements)
+              console.log(postDataAnnouncement.data.message)
+              if(postDataAnnouncement.data.message === 'Validation Error'){
+                Toast.error('Failed add announcement')
+              } else {
+                Toast.success('Success add announcement')
+                navigation.navigate('AddAnnouncementList')
+
+              }
+            }
           } catch (error) {
               console.log(error)
           }
@@ -60,7 +77,7 @@ const AddAnnouncement = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+      <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Gray} translucent = {false}/>
       <ToastManager/>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.main}>

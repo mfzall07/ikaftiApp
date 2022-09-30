@@ -35,7 +35,7 @@ const AgendaDetail = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Red} translucent = {false}/>
+      <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Gray} translucent = {false}/>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.main}>
           <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }} onPress={ () => navigation.goBack()}>
