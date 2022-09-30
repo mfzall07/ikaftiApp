@@ -12,7 +12,10 @@ const Home = ({navigation}) => {
     const [information, setInformation] = useState ('')
     const [agenda, setAgenda] = useState ('')
     const [job, setJob] = useState ('')
-    const [progress, setProgress] = useState('')
+    const [progress1, setProgress1] = useState('')
+    const [progress2, setProgress2] = useState('')
+    const [progress3, setProgress3] = useState('')
+    const [progress4, setProgress4] = useState('')
     const [limit, setLimit] = useState(6)
     
     const fetcData = async () => {
@@ -31,7 +34,10 @@ const Home = ({navigation}) => {
             console.log(responseJob.data.data)
 
             const percentage = await Api.ProgressBar()
-            setProgress(percentage.data)
+            setProgress1(percentage.data.percentage1)
+            setProgress2(percentage.data.percentage2)
+            setProgress3(percentage.data.percentage3)
+            setProgress4(percentage.data.percentage4)
         } catch (error) {
             console.log(error)
         }
@@ -66,32 +72,32 @@ const Home = ({navigation}) => {
                     <View style={styles.progress}>
                         <View style={{ alignItems: 'center' }}>
                             <View style={{position:'relative', justifyContent: 'center', alignItems: 'center'}}>
-                                <Progress.Circle size={60} progress={progress.percentage1/100} color={colors.Red}/>
-                                <Text style={{position: 'absolute', color: colors.Red, fontSize: 12}}>{progress.percentage1}%</Text>
+                                <Progress.Circle size={60} progress={progress1.bar2} color={colors.Red}/>
+                                <Text style={{position: 'absolute', color: colors.Red, fontSize: 12}}>{progress1.bar1}%</Text>
                             </View>
                             <Gap height={5}/>
                             <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 10, color: colors.Black }}>1987-1996</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>
                             <View style={{position:'relative', justifyContent: 'center', alignItems: 'center'}}>
-                                <Progress.Circle size={60} progress={progress.percentage2/100} color={colors.Red}/>
-                                <Text style={{position: 'absolute', color: colors.Red, fontSize: 12}}>{progress.percentage2}%</Text>
+                                <Progress.Circle size={60} progress={progress2.bar2} color={colors.Red}/>
+                                <Text style={{position: 'absolute', color: colors.Red, fontSize: 12}}>{progress2.bar1}%</Text>
                             </View>
                             <Gap height={5}/>
                             <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 10, color: colors.Black }}>1997-2006</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>
                             <View style={{position:'relative', justifyContent: 'center', alignItems: 'center'}}>
-                                <Progress.Circle size={60} progress={progress.percentage3/100} color={colors.Red}/>
-                                <Text style={{position: 'absolute', color: colors.Red, fontSize: 12}}>{progress.percentage3}%</Text>
+                                <Progress.Circle size={60} progress={progress3.bar2} color={colors.Red}/>
+                                <Text style={{position: 'absolute', color: colors.Red, fontSize: 12}}>{progress3.bar1}%</Text>
                             </View>
                             <Gap height={5}/>
                             <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 10, color: colors.Black }}>2007-2016</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>
                             <View style={{position:'relative', justifyContent: 'center', alignItems: 'center'}}>
-                                <Progress.Circle size={60} progress={progress.percentage4/100} color={colors.Red}/>
-                                <Text style={{position: 'absolute', color: colors.Red, fontSize: 12}}>{progress.percentage4}%</Text>
+                                <Progress.Circle size={60} progress={progress4.bar2} color={colors.Red}/>
+                                <Text style={{position: 'absolute', color: colors.Red, fontSize: 12}}>{progress4.bar1}%</Text>
                             </View>
                             <Gap height={5}/>
                             <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 10, color: colors.Black }}>2017-2018</Text>

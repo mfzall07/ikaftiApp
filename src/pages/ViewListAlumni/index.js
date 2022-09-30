@@ -1,18 +1,19 @@
 import React, {useEffect, useState} from "react"
 import {View, Text, StyleSheet, StatusBar, ScrollView, TextInput, FlatList, SafeAreaView} from "react-native"
-import { CardAlumniList, CardViewAlumniList, Gap } from "../../component";
+import { CardAlumniList, CardList, CardViewAlumniList, Gap } from "../../component";
 import { colors, getData } from "../../utils"
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import axios from "axios";
-import { useIsFocused } from "@react-navigation/native";
-const ViewAlumniList = ({navigation}) => {
+import Api from "../../Api";
+import axios, { Axios } from "axios";
 
-    const isFocused = useIsFocused();
-    const [token, setToken] = useState('')
+const ViewListAlumni = ({navigation}) => {
+
     const [borderColor, setBorderColor] = useState('#A1AEB7') ;
     const [alumni, setAlumni] = useState('');
-    const [limitAlumni, setLimitAlumni] = useState(5);
-
+    const [dataFromState, setData] = useState(alumni);
+    const [limitAlumni, setLimitAlumni] = useState(7);
+    const [token, setToken] = useState('');
+    
     const onBlur = () => {
         setBorderColor('#A1AEB7')
     }
@@ -21,23 +22,25 @@ const ViewAlumniList = ({navigation}) => {
         setBorderColor(colors.Red)
     }
 
-    const getDataAlumni = () => {
+    const fetchData = async() => {
+        try {
+            const responseAlumni = await axios.get('https://ikafti-umi.com/api/v1/alumni?limit='+limitAlumni)
+            setData(responseAlumni.data.data)
+            setAlumni(responseAlumni.data.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const getLocalStorage = () => {
         getData('user').then(res => {
             setToken(res.token)
-            const fetchData = async() => {
-                try {
-                    const responseAlumni = await axios.get('https://ikafti-umi.com/api/v1/alumni?limit='+limitAlumni)
-                    setAlumni(responseAlumni.data.data)
-                } catch (error) {
-                    console.log(error)
-                }
-            }
-            fetchData()
         })
     }
+
     useEffect(() => {
-        isFocused && getDataAlumni()
-    }, [isFocused]) 
+        fetchData() && getLocalStorage()
+    }, [])
     
     const render = ({item}) => {
         const params = {
@@ -46,42 +49,52 @@ const ViewAlumniList = ({navigation}) => {
         }
         return (
             <View>
+                <Gap height={10}/>
                 <CardViewAlumniList
                     name={item.name}
                     image={item.image}
                     onPress={ () => navigation.navigate('ViewListAlumniDetail', params) }
                 />
-                <Gap height={15}/>
             </View>
         )
     }
 
     const loadMore = () => {
         setLimitAlumni(limitAlumni+5)
-        getDataAlumni()
+        fetchData()
+    }
+    
+    const searchName = (input) => {
+        let data = dataFromState
+        if (input) {
+            let searchData = data?.filter((item) => {
+                return (
+                    item.name?.toLowerCase().includes(input.toLowerCase())
+                )        
+            })
+            setData(searchData)
+        }
+        else if (!input) {
+            setData(alumni)
+        }
     }
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.container} >
             <StatusBar barStyle = "default" hidden = {false} backgroundColor = {colors.Gray} translucent = {false}/>
-            <View style={styles.main}>
+            <View style={{ alignSelf: 'flex-start' }}>
+                <Text style={{ fontFamily: 'Poppins-Bold', color: colors.Black, fontSize: 24 }}>Alumni List</Text>
+                <Text style={{ fontFamily: 'Poppins', color: colors.Gray, fontSize: 12, bottom: 5 }}>List for alumni IKAFTi</Text>
                 <Gap height={10}/>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <View>
-                    <Text style={styles.headerTitle}>Alumni List</Text>
-                    </View>
-                </View>
-                <View style={styles.line}></View>
-                <Gap height={20}/>
-                <View style={{ position: 'relative' }}>
-                    <TextInput style={styles.input(borderColor)} placeholder='Search' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
-                    <IonIcon name="search" color={colors.Gray} size={18} style={styles.icon} />
-                    <Gap height={10}/>
-                </View>
-                <View>
-                    <FlatList showsVerticalScrollIndicator={false} data={alumni} renderItem={render} onEndReached={() => loadMore()}/>
-                </View>
             </View>
+            <Gap height={20}/>
+            <View style={{ position: 'relative' }}>
+                <TextInput style={styles.input(borderColor)} placeholder='Search' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} onChangeText={ (input) => searchName(input) }/>
+                <IonIcon name="search" color={colors.Gray} size={18} style={styles.icon} />
+                <Gap height={10}/>
+            </View>
+            <FlatList showsVerticalScrollIndicator={false} data={dataFromState} renderItem={render} onEndReached={() => loadMore()} keyExtractor={(item, index) => index.toString()}/>
+            {/* <Gap height={10}/> */}
         </SafeAreaView>
     );
 };
@@ -105,18 +118,8 @@ const styles = StyleSheet.create({
         position: 'absolute', 
         top: 15, 
         left: 10
-    },
-    headerTitle: {
-        fontFamily: 'Poppins-Bold', 
-        color: colors.Black, 
-        fontSize: 18
-    },
-    line: {
-        width: '65%',
-        height: 2,
-        backgroundColor: colors.Red
-    },
+    }
 
 })
 
-export default ViewAlumniList;
+export default ViewListAlumni;

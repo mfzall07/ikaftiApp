@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     },
     card: {
         backgroundColor: colors.White,
-        width: windowWidth/1.5,
+        width: windowWidth/1.6,
         height: 300,
         borderWidth: 1,
         borderColor: colors.Gray,

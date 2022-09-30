@@ -65,8 +65,8 @@ const CardList = ({onPress, image, name, desc, type, onPressDel, id}) => {
                 <Image source={{uri: image}} style={styles.avatar}/>
                 <Gap width={20}/>
                 <View>
-                    <Text style={styles.name}>{name}</Text>
-                    <Text style={styles.desc}>{desc}</Text>
+                    <Text style={styles.names}>{name}</Text>
+                    <Text style={styles.descs}>{desc}</Text>
                 </View>
             </View>
         )
@@ -118,13 +118,18 @@ const styles = StyleSheet.create({
     name: {
         fontFamily: 'Poppins-Bold',
         color: colors.Black,
-        maxWidth: 125
+        maxWidth: 125,
     },
     desc: {
         fontFamily: 'Poppins-Bold',
         color: colors.Gray,
         maxWidth: 250,
         fontSize: 12
+    },
+    names: {
+        fontFamily: 'Poppins-Bold',
+        color: colors.Black,
+        maxWidth: 200,
     },
     mainModal: {
         backgroundColor: 'rgba(0, 0, 0, 0.7)',

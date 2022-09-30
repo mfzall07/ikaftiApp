@@ -12,6 +12,7 @@ const AlumniList = ({navigation}) => {
 
     const [borderColor, setBorderColor] = useState('#A1AEB7') ;
     const [alumni, setAlumni] = useState('');
+    const [dataFromState, setData] = useState(alumni);
     const [limitAlumni, setLimitAlumni] = useState(4);
     
     const onBlur = () => {
@@ -25,6 +26,7 @@ const AlumniList = ({navigation}) => {
     const fetchData = async() => {
         try {
             const responseAlumni = await axios.get('https://ikafti-umi.com/api/v1/alumni?limit='+limitAlumni)
+            setData(responseAlumni.data.data)
             setAlumni(responseAlumni.data.data)
         } catch (error) {
             console.log(error)
@@ -55,6 +57,21 @@ const AlumniList = ({navigation}) => {
         fetchData()
     }
     
+    const searchName = (input) => {
+        console.log(input)
+        let data = dataFromState
+        if (input) {
+            let searchData = data.filter((item) => {
+                return (
+                    item.name?.toLowerCase().includes(input.toLowerCase())
+                )        
+            })
+            setData(searchData)
+        }
+        else if (!input) {
+            setData(alumni)
+        }
+    }
 
     return (
         <SafeAreaView style={styles.container} >
@@ -66,11 +83,11 @@ const AlumniList = ({navigation}) => {
             </View>
             <Gap height={20}/>
             <View style={{ position: 'relative' }}>
-                <TextInput style={styles.input(borderColor)} placeholder='Search' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur}/>
+                <TextInput style={styles.input(borderColor)} placeholder='Search' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} onChangeText={ (input) => searchName(input) }/>
                 <IonIcon name="search" color={colors.Gray} size={18} style={styles.icon} />
                 <Gap height={10}/>
             </View>
-            <FlatList showsVerticalScrollIndicator={false} data={alumni} renderItem={render} onEndReached={() => loadMore()}/>
+            <FlatList showsVerticalScrollIndicator={false} data={dataFromState} renderItem={render} onEndReached={() => loadMore()} keyExtractor={(item, index) => index.toString()}/>
             {/* <Gap height={10}/> */}
         </SafeAreaView>
     );
