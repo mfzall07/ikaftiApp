@@ -12,8 +12,8 @@ const AlumniList = ({navigation}) => {
 
     const [borderColor, setBorderColor] = useState('#A1AEB7') ;
     const [alumni, setAlumni] = useState('');
-    const [dataFromState, setData] = useState(alumni);
-    const [limitAlumni, setLimitAlumni] = useState(4);
+    const [oldAlumni, setOldAlumni] = useState('');
+    const [search, setSearch] = useState('');
     
     const onBlur = () => {
         setBorderColor('#A1AEB7')
@@ -25,8 +25,8 @@ const AlumniList = ({navigation}) => {
 
     const fetchData = async() => {
         try {
-            const responseAlumni = await axios.get('https://ikafti-umi.com/api/v1/alumni?limit='+limitAlumni)
-            setData(responseAlumni.data.data)
+            const responseAlumni = await axios.get('https://ikafti-umi.com/api/v1/alumni')
+            setOldAlumni(responseAlumni.data.data)
             setAlumni(responseAlumni.data.data)
         } catch (error) {
             console.log(error)
@@ -51,25 +51,19 @@ const AlumniList = ({navigation}) => {
             </View>
         )
     }
-
-    const loadMore = () => {
-        setLimitAlumni(limitAlumni+4)
-        fetchData()
-    }
     
     const searchName = (input) => {
-        console.log(input)
-        let data = dataFromState
         if (input) {
-            let searchData = data.filter((item) => {
-                return (
-                    item.name?.toLowerCase().includes(input.toLowerCase())
-                )        
+            const searchData = alumni.filter((item) => {
+                const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase()
+                const textData = input.toUpperCase()
+                return itemData.indexOf(textData) > -1    
             })
-            setData(searchData)
-        }
-        else if (!input) {
-            setData(alumni)
+            setAlumni(searchData)
+            setSearch(input)
+        }else { 
+            setAlumni(oldAlumni)
+            setSearch(input)
         }
     }
 
@@ -83,11 +77,11 @@ const AlumniList = ({navigation}) => {
             </View>
             <Gap height={20}/>
             <View style={{ position: 'relative' }}>
-                <TextInput style={styles.input(borderColor)} placeholder='Search' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} onChangeText={ (input) => searchName(input) }/>
+                <TextInput style={styles.input(borderColor)} placeholder='Search' placeholderTextColor={colors.Gray} onFocus={onFocus} onBlur={onBlur} value={search} onChangeText={ (input) => searchName(input) }/>
                 <IonIcon name="search" color={colors.Gray} size={18} style={styles.icon} />
                 <Gap height={10}/>
             </View>
-            <FlatList showsVerticalScrollIndicator={false} data={dataFromState} renderItem={render} onEndReached={() => loadMore()} keyExtractor={(item, index) => index.toString()}/>
+            <FlatList data={alumni} renderItem={render} keyExtractor={item => item.id}/>
             {/* <Gap height={10}/> */}
         </SafeAreaView>
     );
