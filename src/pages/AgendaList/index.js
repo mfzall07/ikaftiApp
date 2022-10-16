@@ -13,7 +13,7 @@ const AgendaList = ({navigation}) => {
 
     const fetcData = async () => {
         try {
-            const responseAgenda = await Api.indexAgenda()
+            const responseAgenda = await Api.LindexAgenda()
             setAgenda(responseAgenda.data.data)
         } catch (error) {
             console.log(error)

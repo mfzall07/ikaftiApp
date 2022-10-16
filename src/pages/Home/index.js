@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react"
 import {View, Text, StyleSheet, StatusBar, ScrollView, TouchableOpacity} from "react-native"
 import Api from "../../Api";
-import { CardAgenda, CardAnnouncement, CardCareer, CardInformation, Gap } from "../../component/atoms";
+import { CardAgenda, CardAnnouncement, CardCareer, CardInformation, CardPartner, Gap } from "../../component/atoms";
 import { colors } from "../../utils"
 import moment from "moment";
 import * as Progress from 'react-native-progress';
+import { exampleContent } from "../../assets";
 
 const Home = ({navigation}) => {
 
@@ -182,6 +183,20 @@ const Home = ({navigation}) => {
                             }) }
                         </ScrollView>
                     </View>
+                    <Gap height={20}/>
+                    <View style={styles.sectionPartner}>
+                        <View style={styles.partnerHeader}>
+                            <Text style={styles.partnerText}>Our Partner</Text>
+                        </View>
+                        <Gap height={10} />
+                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+                            <CardPartner source={exampleContent} title={'My Partnership'}/>
+                            <Gap width={10}/>
+                            <CardPartner source={exampleContent} title={'My Partnership'}/>
+                            <Gap width={10}/>
+                            <CardPartner source={exampleContent} title={'My Partnership'}/>
+                        </ScrollView>
+                    </View>
                     <Gap height={10}/>
                 </View>
             </ScrollView>
@@ -245,6 +260,22 @@ const styles = StyleSheet.create({
     },
     careerText: {
         width:'35%',
+        fontSize: 20,
+        textTransform: 'uppercase',
+        color: colors.Black,
+        fontFamily: 'Poppins-Bold',
+    },
+    sectionPartner: {
+        width: '100%',
+        height: 170,
+    },
+    partnerHeader: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },  
+    partnerText: {
         fontSize: 20,
         textTransform: 'uppercase',
         color: colors.Black,

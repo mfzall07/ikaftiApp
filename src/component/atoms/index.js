@@ -7,6 +7,7 @@ import CardAlumniList from "./Card/card-alumniList"
 import CardWaitingList from "./Card/card-waiting-list"
 import CardViewAlumniList from "./Card/card-view-alumni-list"
 import CardList from "./Card/card-list"
+import CardPartner from "./Card/card-partner"
 
 export {
     Gap,
@@ -18,4 +19,5 @@ export {
     CardWaitingList,
     CardViewAlumniList,
     CardList,
+    CardPartner,
 }

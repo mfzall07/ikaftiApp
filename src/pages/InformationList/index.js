@@ -14,9 +14,9 @@ const InformationList = ({navigation}) => {
     const fetcData = async () => {
         try {
 
-            const responseInformation = await Api.indexInformation()
+            const responseInformation = await Api.LindexInformation()
+            console.log(responseInformation)
             setInformation(responseInformation.data.data)
-
         } catch (error) {
             console.log(error)
         }

@@ -43,7 +43,7 @@ const CardCareer = ({title, description, typeJob, salary, onPress, image}) => {
 const styles = StyleSheet.create({
     card: {
         backgroundColor: colors.White,
-        width: windowWidth/2.34,
+        width: windowWidth/2.33,
         height: 200,
         borderWidth: 1,
         borderColor: colors.Gray,

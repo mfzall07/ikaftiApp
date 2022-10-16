@@ -90,6 +90,13 @@ class Api{
             method: 'GET',
         })
     }
+
+    static LindexInformation() {
+        let path = 'v1/information';
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'GET',
+        })
+    }
     
     static ShowInformation(id) {
         let path = `v1/information/${id}`;
@@ -105,6 +112,14 @@ class Api{
             method: 'GET',
         })
     }
+
+    static LindexAgenda() {
+        let path = `v1/agenda`;
+        return request(`${this.urlAPI()}${path}`, {
+            method: 'GET',
+        })
+    }
+
     static showAgenda(id) {
         let path = `v1/agenda/${id}`;
         return request(`${this.urlAPI()}${path}`, {
@@ -202,7 +217,7 @@ class Api{
     }
     
     static LindexJob() {
-        let path = `v1/job`;
+        let path = 'v1/job';
         return request(`${this.urlAPI()}${path}`, {
             method: 'GET',
         })

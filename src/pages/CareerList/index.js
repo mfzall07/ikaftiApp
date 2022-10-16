@@ -17,9 +17,8 @@ const CareerList = ({navigation}) => {
     const fetcData = async () => {
         try {
 
-            const responseJob = await Api.indexJob()
+            const responseJob = await Api.LindexJob()
             setJob(responseJob.data.data)
-
         } catch (error) {
             console.log(error)
         }
